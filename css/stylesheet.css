@@ -1,0 +1,534 @@
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+}
+
+/*--------------------------------------------------------------------
+                   		Menu de navigation
+--------------------------------------------------------------------   */ 
+
+
+nav {
+	position: fixed;
+	display: flex;
+	-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+	width: 100%;
+	height: 100px;
+	background-color: white;
+	z-index: 99999;
+	transition: all 0.3s;
+
+}
+.sticky {
+	height: 50px !important;
+}
+.barreMenu {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 3px;
+	background-color: #FB0000;
+}
+.logoAccueil {
+	margin: auto;
+}
+.logoAccueil a img {
+	width: 80%;
+	height: auto;
+	transition: width 0.3s;
+}
+.logoAccueilRedim {
+	width: 50% !important;
+}
+.navigation {
+	margin: 8px auto auto auto;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	list-style: none;
+}
+.navigation li a {
+	text-decoration: none;
+	font-family: 'Amatic SC', cursive;
+	font-weight: bold;
+	font-size: 1.5em;
+	color: black;
+	padding: 20px;
+	margin: auto;
+	transition: color 0.3s;
+}
+.navigationInactive {
+	display: none;
+}
+.navigation li a:hover {
+	color: #FB0000 !important;
+}
+
+/*Si la réservation est active ou non*/
+.navResaInactive {
+	display: none;
+}
+.navResaActive {
+	display: block;
+}
+
+
+/*--------------------------------------------------------------------
+                   	Section 1 : Carrousel
+--------------------------------------------------------------------   */ 
+
+/*Carrousel et ses images*/
+
+
+#carrousel {
+    position:relative;
+    width: 100%;
+ 	height: 85vh;
+	overflow: hidden;
+	margin: auto;
+	display: flex;
+}
+#carrousel ul li img{
+	display: none; /*On cache les images par défaut*/
+	left: 0%;
+    z-index: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: auto;
+    list-style: none;
+}
+#carrousel ul li {
+	height: 0;
+}
+
+
+/*Textes et boutons du carrousel*/
+
+#carrousel ul li div {
+	z-index: 9998;
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	top: 40%;
+	left: 20%;
+	right: 20%;
+	text-align: center;
+	font-family: 'Amatic SC', cursive;
+	font-weight: bold;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+#carrousel ul li div h2 {
+	font-size: 4em;
+	text-transform: uppercase;
+	color: #FB0000;
+	margin-bottom: 20px;
+	text-shadow: 0px 2px 8px rgba(0,0,0,0.75); 
+}
+#carrousel ul li div p {
+	color: white;
+	font-size: 2.5em;
+	margin-bottom: 20px;
+	text-shadow: 0px 2px 8px rgba(0,0,0,0.75); 
+}
+#carrousel ul li div a {
+	margin: auto;
+	width: 220px;
+	height: 40px;
+	font-size: 2em;
+	background-color: white;
+	color: #FB0000;
+	text-decoration: none;
+	padding: 10px;
+	border-radius: 10px;
+	transition: color 0.3s, background-color 0.3s;
+	box-shadow: 0px 10px 42px 0px rgba(0,0,0,0.75);
+}
+#carrousel ul li div a:hover {
+	color: white;
+	background-color: #FB0000;
+}
+.textActif {
+	opacity: 1 !important;
+	z-index: 9999 !important;
+}
+
+/*Boutons suivant et précédent du carrousel*/
+
+
+.controls {
+	margin: auto;
+	width: 100%;
+	height: auto;
+}
+.prev, .next {
+	position: absolute;
+	color: #FB0000;
+	font-size: 3.5em;
+	z-index: 999;
+	padding: 20px;
+	background-color: white;
+	cursor: pointer;
+	transition: color 0.3s, background-color 0.3s;
+}
+.next {
+	right: 0;
+}
+.prev {
+	left: 0;
+}
+.prev:hover, .next:hover {
+	color: white;
+	background-color: #FB0000;
+}
+
+
+/*Section des puces du carrousel*/
+
+/*Barre de progression*/
+.chargementCarrousel {
+	width: 100%;
+	height: 3px;
+	position: absolute;
+	bottom: 0;
+	background-color: white;
+	z-index: 99998;
+}
+.barreChargementCarrousel {
+	position: absolute;
+	bottom: 0;
+	background-color: #FB0000;
+	height: 3px;
+	z-index: 99999;
+	width: 0%;
+}
+
+/*Puces du carrousel*/
+
+#pucesCarrousel {
+	height: 15vh;
+	display: flex;
+	text-align: center;
+	background-color: #eee;
+}
+#pucesCarrousel li {
+	display: inline-block;
+	background-position: 50% 25%;
+	background-size: cover;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	cursor: pointer;
+	filter: grayscale(100%);
+	opacity: 0.3;
+	transition: opacity 0.5s, filter 0.5s;
+}
+#pucesCarrousel li:hover {
+	filter: grayscale(0%);
+	opacity: 1 !important;
+}
+
+/*Vignette du carrousel*/
+#pucesCarrousel li:nth-of-type(1) {
+	background-image: url(../img/deplacementsLyon.jpg);
+}
+#pucesCarrousel li:nth-of-type(2) {
+	background-image: url(../img/basilicaLyon.jpg);
+}
+#pucesCarrousel li:nth-of-type(3) {
+	background-image: url(../img/veloLyon.jpg);
+}
+#pucesCarrousel li:nth-of-type(4) {
+	background-image: url(../img/ruellesLyon.jpg);
+}
+.puceActive {
+	opacity: 1 !important;
+}
+
+
+/*--------------------------------------------------------------------
+                   		Section 2 : Google Maps
+--------------------------------------------------------------------   */   
+
+/*Carte*/
+
+#carte {
+	background-color: #E8E8E8;
+	height: 100vh;
+	width: 100%;
+}
+#map {
+    width: 100%;
+    height: 100%;
+    float: left;
+}
+
+/*Volet d'informations droit*/
+
+#voletInfos {
+	display: none;
+	margin-left: 75%;
+	padding-top: 60px;
+	padding-right: 20px;
+	padding-left: 20px;
+	width: auto;
+	height: auto;
+	text-align: center;
+}
+.fa-times {
+	cursor: pointer;
+	color: #FB0000;
+	font-size: 2em;
+	position: absolute;
+	right: 20px;
+}
+.name {
+	padding-top: 100px;
+	text-align: center;
+}
+.arrondissement {
+	padding-top: 50px;
+}
+hr {
+	margin: 30px 20% 30px 20%;
+	color: #eee;
+}
+.boutonReservationActif {
+	margin: 50px auto 50px auto;
+	background-color: #28A745;
+	padding: 7px;
+	border-radius: 4px;
+	cursor: pointer;
+	border: 2px solid #28A745;
+	color: white;
+	font-weight: bold;
+	transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+.boutonReservationActif:hover {
+	background-color: white;
+	color: #28A745;
+	border-color: white;
+}
+.boutonReservationInactif {
+	cursor: not-allowed;
+	padding: 7px;
+	border-radius: 4px;
+	margin: 50px auto 50px auto;
+	border: 2px solid #ddd;
+	font-weight: bold;
+}
+
+/*Bloc canva qui apparait au clic sur le bouton reservation*/
+
+.blocCanva {
+	display: none;
+}
+#canvas {
+	margin: 40px auto;
+	width: 400px;
+	height: 300px;
+	background-color: white;
+	border-radius: 8px;
+	cursor: crosshair;
+	border: 2px solid white;
+	transition: border-color 0.5s;
+}
+#canvas:hover {
+	border: 2px solid #FB0000;
+}
+
+/*Boutons du canvas*/
+.groupBoutons {
+	display: flex;
+	justify-content: space-around;
+}
+.groupBoutons button {
+	padding: 8px 12px 8px 12px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.confirmerActif {
+	font-weight: bold;
+	z-index: 999;
+	background-color: #28A745;
+	border: 2px solid #28A745;
+	color: white;
+	transition: border 0.3s, background-color 0.3s, color 0.3s, font-weight 0.3s;
+}
+.confirmerActif:hover {
+	border-color: white;
+	background-color: white;
+	color: #28A745;
+}
+.confirmerInactif {
+	cursor: not-allowed !important;
+	border: 2px solid #ddd;
+}
+.rafraichir {
+	background-color: #6C757D;
+	color: white;
+	border: 2px solid #6C757D;
+	transition: border 0.3s, background-color 0.3s, color 0.3s;
+}
+.rafraichir:hover {
+	border-color: white;
+	background-color: white;
+	color: #6C757D;
+}
+.annuler {
+	font-weight: bold;
+	background-color: #FB0000;
+	color: white;
+	border: 2px solid #FB0000;
+	transition: border 0.3s, background-color 0.3s, color 0.3s;
+}
+.annuler:hover {
+	border-color: white;
+	background-color: white;
+	color: #FB0000;
+}
+
+
+
+/*--------------------------------------------------------------------
+                   	Section 3 : Réservation en cours
+--------------------------------------------------------------------   */ 
+
+.blocVide {
+	width: 25%;
+	height: 100%;
+	background-color: #E8E8E8;
+	display: flex;
+}
+
+#reservationActive {
+	display: flex;
+	height: 95vh;
+	background-color: rgb(250,250,250);
+}
+#reservationInactive {
+	display: none;
+}
+#reservationActive h2 {
+	padding: 200px 0 120px 10vw;
+}
+.infosReservation, .decompteReservation {
+	padding-left: 10%; 
+}
+.sectionResa {
+	display: flex;
+}
+.sectionResa div:last-child {
+	flex-direction: column;
+	justify-content: center;
+}
+.fa-bicycle {
+	font-size: 4em;
+	margin-left: 10vw; 
+	color: #28A745;
+}
+.annulerResa {
+	font-family: 'Source Sans Pro', sans-serif;
+	margin-left: 10vw;
+	margin-top: 80px;
+	padding: 8px 15px 8px 15px;
+	border-radius: 2px;
+	cursor: pointer;
+	font-weight: 700;
+	font-size: 1em;
+	background-color: #FB0000;
+	color: white;
+	border: 2px solid #FB0000;
+	transition: border 0.3s, background-color 0.3s, color 0.3s;
+}
+.annulerResa:hover {
+	border-color: white;
+	background-color: white;
+	color: #FB0000;
+}
+.autreResa {
+	display: none;
+	width: 210px;
+	text-align: center;
+	margin-right: auto;
+	margin-left: 10vw;
+	margin-top: 80px;
+	padding: 8px 15px 8px 15px;
+	border-radius: 2px;
+	cursor: pointer;
+	font-weight: 700;
+	text-decoration: none;
+	background-color: #28A745;
+	color: white;
+	transition: background-color 0.3s, color 0.3s;
+}
+.autreResa:hover {
+	background-color: white;
+	color: #28A745;
+}
+.confirmationTexte {
+	display: none;
+	margin-left: 10vw;
+	margin-top: 60px;
+}
+.confirmation, .retour {
+	margin-left: 10vw;
+	margin-top: 30px;
+	border-radius: 2px;
+	cursor: pointer;
+	font-weight: 700;
+	color: white;
+	transition: background-color 0.3s, color 0.3s;
+	padding: 8px 15px 8px 15px;
+	border: none;
+}
+.confirmation {
+	background-color: #28A745;
+}
+.confirmation:hover {
+	background-color: white;
+	color: #28A745;
+}
+.retour {
+	background-color: #FB0000;
+}
+.retour:hover {
+	background-color: white;
+	color: #FB0000;
+}
+
+
+/*--------------------------------------------------------------------
+                   	Responsive Tablettes
+--------------------------------------------------------------------   */ 
+
+
+
+
+
+
+
+/*--------------------------------------------------------------------
+                   	Responsive Mobiles
+--------------------------------------------------------------------   */
+
+
+
+
+
+
+
+
+/*--------------------------------------------------------------------
+                   	Adaptations diverses
+--------------------------------------------------------------------   */ 
+
+

@@ -1,0 +1,268 @@
+<!-- Projet 3 - Concevez une carte interactive de location de vélos | OpenClassrooms
+
+Réalisé par Rodolphe Cabotiau
+Date de début de projet : 19/03/2018
+Date d'achèvement : ../04/2018
+
+Dernière mise à jour : 29/03/2018 -->
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<title>Réservation Vélo'v | Réservez votre vélo et partez découvrir Lyon !</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Balises Open Graph -->
+	<meta property="og:title" content="Vélo'v | Réservez votre vélo et partez à l'aventure !">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://rodolphe.cabotiau.com/projet_3_openclassrooms/">
+	<meta property="og:image" content="https://rodolphe.cabotiau.com/projet_3_openclassrooms/img/imgOpenGraph.jpg">
+	<meta property="og:description" content="Vous souhaitez vous déplacer dans Lyon en vélo'v ? Réservez-en un où que vous soyez, en seulement quelques instants !"/>
+	<meta property="og:locale" content="fr_FR" />
+
+	<!-- Balises Twitter Card -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="@RCabotiau">
+	<meta name="twitter:title" content="Vélo'v | Réservez votre vélo et partez à l'aventure !">
+	<meta name="twitter:description" content="Vous souhaitez vous déplacer dans Lyon en vélo'v ? Réservez-en un où que vous soyez, en seulement quelques instants !">
+	<meta name="twitter:creator" content="@RCabotiau">
+	<meta name="twitter:image" content="https://rodolphe.cabotiau.com/projet_3_openclassrooms/img/imgTwitterCard.jpg">
+
+	<!-- Balises Google -->
+	<meta name="description" content="Vélo'v | Réservez votre vélo et partez à l'aventure !">
+	<meta name="keywords" content="vélo'v, vélo Lyon réservation">
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"> 
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+
+	<!-- Feuille de style principale -->
+	<link rel="stylesheet" href="css/stylesheet.css">
+
+	<!-- CDN FontAwesome -->
+	<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script> 
+
+	<!-- CDN Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700%7CSource+Sans+Pro:300,400,600" rel="stylesheet">
+	
+</head>
+
+<body>
+
+	<!-- En-tête de la page contenant le carrousel -->
+
+	<header id="accueil">
+
+		<div id="carrousel">
+
+			<!-- Menu de navigation fixe -->
+			<nav>
+
+				<div class="logoAccueil">
+					<a href="#accueil">
+						<img src="img/logo.png" alt="Logo Vélo'v">
+					</a>
+				</div>
+
+				<ul class="navigation navigationInactive">
+					<li><a href="#accueil">Découvrez l'application</a></li>
+					<li><a href="#carte">Réservez</a></li>
+					<li class="navResaInactive"><a href="#reservationActive">Réservation en cours</a></li>
+				</ul>
+				<div class="barreMenu"></div>
+
+			</nav>
+
+			<ul id="carrouselContenu">
+				<li>
+					<img src="img/deplacementsLyon.jpg" alt="Femme empruntant un vélo'v">
+					<div>
+						<h2>Observez</h2>
+						<p>C'est sur la carte que vous trouverez tous les relais où se trouve les vélo'v !</p>
+						<a href="#carte">Réservez maintenant !</a>
+					</div>
+				</li>
+				<li>
+					<img src="img/basilicaLyon.jpg" alt="Vue sur la basilique de Lyon">
+					<div>
+						<h2>Découvrez</h2>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+						tempor incididunt ut labore et dolore magna aliqua.</p>
+						<a href="#carte">Réservez maintenant !</a>
+					</div>
+				</li>
+				<li>
+					<img src="img/veloLyonBW.jpg" alt="Vélo'v roulant sur les quais">
+					<div>
+						<h2>Pratiquez</h2>
+						<p>Duis aute irure dolor in reprehenderit in voluptate velit esse
+						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						<a href="#carte">Réservez maintenant !</a>
+					</div>
+				</li>
+				<li>
+					<img src="img/ruellesLyon.jpg" alt="Ruelles de Lyon avec vue sur le centre ville">
+					<div>
+						<h2>Profitez !</h2>
+						<p>Excepteur sint occaecat cupidatat non
+						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						<a href="#carte">Réservez maintenant !</a>
+					</div>
+				</li>
+			</ul>
+
+			<div class="controls"> 
+				<span class="prev"><i class="fas fa-angle-left"></i></span> 
+				<span class="next"><i class="fas fa-angle-right"></i></span> 
+			</div>
+
+			<span class="chargementCarrousel">
+				<span class="barreChargementCarrousel"></span>
+			</span>
+		</div>
+		
+		<ul id="pucesCarrousel">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+
+	</header>
+
+	<!-- Section contenant la google map -->
+
+	<section id="carte">
+
+		<!-- Emplacement de la Google Map -->
+		<div id="map"></div>
+
+		<!-- Volet d'information -->
+		<div id="voletInfos">
+
+			<div>
+				<i class="fas fa-times"></i>
+			</div>
+
+			<h2 class="name">Nom de la station</h2>
+			<p class="arrondissement">Arrondissement de la station</p>
+			<p class="address">Adresse de la station</p>
+
+			<hr>
+
+			<div class="remplacementCanva">	
+
+				<p class="available_bikes">Nombre de Vélo'v disponible</p>
+				<p class="available_bike_stands">Nombre de stands disponibles</p>
+
+				<hr>
+
+				<p class="status">Status de la station</p>
+				<div>
+					<button class='boutonReservationActif'>Réservez un Vélo'v à cette station</button>
+				</div>
+				<small class="last_update">Horaire de la dernière mise à jour</small>
+
+			</div>
+
+			<div class="blocCanva">	
+
+				<p>Veuillez signer dans le cadre ci-dessous pour réserver un Vélo'v dans cette station</p>
+				<small>Votre réservation sera valable pendant 20 minutes</small>
+
+				<div class='canvasZone'>
+					<canvas id="canvas" width="400" height="300"></canvas>
+				</div>
+
+				<div class="groupBoutons">
+					<button class="confirmer confirmerInactif" title='Signez dans le cadre pour pouvoir confirmer la réservation' disabled="disabled">Confirmer</button>
+					<button class="rafraichir" title="Effacer le contenu du cadre"><i class="fas fa-sync-alt"></i></button>
+					<button class="annuler">Annuler</button>
+				</div>
+
+			</div>
+		</div>
+
+	</section>
+
+
+	<!-- Section contenant les réservations déjà faites -->
+
+	<section class='reservation' id="reservationInactive">
+
+		<div class="blocVide"></div>
+
+		<div>
+			<h2>Votre réservation en cours de validité</h2>
+
+			<div class="sectionResa">
+				<div>
+					<i class="fas fa-bicycle"></i>
+				</div>
+				<div>
+					<p class="infosReservation"></p>
+					<p class="decompteReservation"></p>
+				</div>
+			</div>
+
+			<button class="annulerResa">Annuler la réservation</button>
+			<p class='confirmationTexte'>Êtes-vous certain de vouloir annuler votre réservation ?</p>
+			<button class='confirmation'>Confirmer</button>
+			<button class='retour'>Retour</button>
+			<a href='#carte' class="autreResa">Faire une nouvelle réservation</a>
+			
+		</div>
+
+	</section>
+
+	<!-- ///////////////// Appels librairies \\\\\\\\\\\\\\\\\\\\\ -->
+
+	<!-- CDN Google jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<!-- Chargement de la Google Mpas JavaScript API -->
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYJ3eZwCV8oa8ZOCNNTXpTr-D7tO2rGVw"></script>
+
+	<!-- Librairies de regroupement des marqueurs -->
+	<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.min.js"></script>
+
+	<!--////////////// Scripts JavaScript / jQuery \\\\\\\\\\\\\\\\\\-->
+
+	<!-- Clé API Google Maps : AIzaSyBYJ3eZwCV8oa8ZOCNNTXpTr-D7tO2rGVw  -->
+	<!-- Clé API JCDeacaux   : 9590be8e47d7154bf9cc5784f23eb168c68e79ef -->
+
+	<!-- Script de création de la fonction ajax Get -->
+	<script src="js/ajaxGet.js"></script>
+	<!-- Script pour le fonctionnement du carrousel -->
+	<script src="js/carrousel.js"></script>
+	<!-- Script menu de navigation et défilement fluide -->
+	<script src="js/scroll.js"></script>
+	<!-- Script pour le fonctionnement du canvas de dessin -->
+	<script src="js/canvas.js"></script>
+	<!-- Script pour le fonctionnement du compte à rebours et de la section de réservation -->
+	<script src="js/compteRebours.js"></script>
+
+	<!-- Sript appelant la fonction initMap pour initialiser la Google Map -->
+	<script src="js/initMap.js"></script>
+
+
+</body>
+
+</html>
+
+<!-- todo list -->
+
+<!-- A faire -->
+<!-- Modifier les images du carrousel -->
+<!-- Faire le responsive tablette/smartphone -->
+<!-- Passer le css à l'autoprefixer -->
+
+<!-- Correction de bugs divers -->
+<!-- Corriger les bugs du carrousels -->
