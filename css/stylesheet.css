@@ -1,4 +1,5 @@
 
+/*Normalisation de la page*/
 * {
 	margin: 0;
 	padding: 0;
@@ -23,7 +24,6 @@ nav {
 	background-color: white;
 	z-index: 99999;
 	transition: all 0.3s;
-
 }
 .sticky {
 	height: 50px !important;
@@ -37,6 +37,7 @@ nav {
 }
 .logoAccueil {
 	margin: auto;
+	text-align: center;
 }
 .logoAccueil a img {
 	width: 80%;
@@ -94,7 +95,7 @@ nav {
 	margin: auto;
 	display: flex;
 }
-#carrousel ul li img{
+#carrousel ul li img {
 	display: none; /*On cache les images par défaut*/
 	left: 0%;
     z-index: 0;
@@ -103,6 +104,7 @@ nav {
 	width: 100%;
 	height: auto;
     list-style: none;
+    filter: contrast(75%) grayscale(0.25) brightness(0.9);
 }
 #carrousel ul li {
 	height: 0;
@@ -160,6 +162,8 @@ nav {
 	opacity: 1 !important;
 	z-index: 9999 !important;
 }
+
+
 
 /*Boutons suivant et précédent du carrousel*/
 
@@ -238,13 +242,13 @@ nav {
 
 /*Vignette du carrousel*/
 #pucesCarrousel li:nth-of-type(1) {
-	background-image: url(../img/deplacementsLyon.jpg);
+	background-image: url(../img/velosLyon.jpg);
 }
 #pucesCarrousel li:nth-of-type(2) {
-	background-image: url(../img/basilicaLyon.jpg);
+	background-image: url(../img/confluence.jpg);
 }
 #pucesCarrousel li:nth-of-type(3) {
-	background-image: url(../img/veloLyon.jpg);
+	background-image: url(../img/deplacementsLyon.jpg);
 }
 #pucesCarrousel li:nth-of-type(4) {
 	background-image: url(../img/ruellesLyon.jpg);
@@ -274,28 +278,26 @@ nav {
 /*Volet d'informations droit*/
 
 #voletInfos {
+	height: 100%;
+	margin-bottom: 0;
 	display: none;
-	margin-left: 75%;
-	padding-top: 60px;
+	flex-direction: column;
+	margin-left: 75vw;
 	padding-right: 20px;
 	padding-left: 20px;
-	width: auto;
-	height: auto;
 	text-align: center;
+	justify-content: space-around;
+}
+.fermetureVolet {
+	text-align: right;
+	padding-top: 60px;
 }
 .fa-times {
+	
 	cursor: pointer;
 	color: #FB0000;
 	font-size: 2em;
-	position: absolute;
-	right: 20px;
-}
-.name {
-	padding-top: 100px;
-	text-align: center;
-}
-.arrondissement {
-	padding-top: 50px;
+	
 }
 hr {
 	margin: 30px 20% 30px 20%;
@@ -325,27 +327,41 @@ hr {
 	border: 2px solid #ddd;
 	font-weight: bold;
 }
+.remplacementCanva, .blocCanva {
+	height: 60%;
+	display: flex;
+	flex-direction: column;
+}
 
 /*Bloc canva qui apparait au clic sur le bouton reservation*/
 
 .blocCanva {
 	display: none;
+	flex-direction: column;
+	justify-content: space-around;
 }
 #canvas {
-	margin: 40px auto;
-	width: 400px;
-	height: 300px;
 	background-color: white;
 	border-radius: 8px;
 	cursor: crosshair;
 	border: 2px solid white;
 	transition: border-color 0.5s;
+	width: 100%;
+	height: 100%;
+	min-height: 150px;
+
+	touch-action: none;
+}
+.canvasZone {
+	display:flex;
+    height: 50%;
 }
 #canvas:hover {
 	border: 2px solid #FB0000;
 }
 
 /*Boutons du canvas*/
+
 .groupBoutons {
 	display: flex;
 	justify-content: space-around;
@@ -421,10 +437,11 @@ hr {
 	padding: 200px 0 120px 10vw;
 }
 .infosReservation, .decompteReservation {
-	padding-left: 10%; 
+	padding-left: 10vw; 
 }
 .sectionResa {
 	display: flex;
+	flex-wrap: wrap;
 }
 .sectionResa div:last-child {
 	flex-direction: column;
@@ -477,6 +494,7 @@ hr {
 .confirmationTexte {
 	display: none;
 	margin-left: 10vw;
+	margin-right: 10vw;
 	margin-top: 60px;
 }
 .confirmation, .retour {
@@ -506,13 +524,53 @@ hr {
 }
 
 
+
+
 /*--------------------------------------------------------------------
                    	Responsive Tablettes
 --------------------------------------------------------------------   */ 
 
 
+/*iPad (landscape)*/
+@media all and (max-width: 1024px) {
 
+	/*Barre de navigation*/
+	nav {
+		height: 60px;
+	}
+	.navigation li:nth-child(1) a {
+		color: #FB0000;
+	}
+	.logoAccueil a img {
+		width: 50%;
+	}
+	.navigationInactive {
+		display: flex;
+	}
+	.navigation {
+		margin-top: 15px !important;
+	}
 
+	/*Section 1*/
+	#carrousel ul li img {
+ 		top: 60px !important;
+		width: auto;
+		height: 100%;
+		left: -8%;
+	}
+	/*Section 3*/
+	.blocVide {
+		width: 15%;
+	}
+}
+
+/*iPad (portrait)*/
+@media all and (max-width: 768px) {
+	/*Section 1*/
+	#carrousel ul li img {
+		left: -50%;
+	}
+}
 
 
 
@@ -520,10 +578,62 @@ hr {
                    	Responsive Mobiles
 --------------------------------------------------------------------   */
 
+/*Smartphone de grande taille (ex: iPhone 6 plus)*/
+@media all and (max-width: 414px) {
+	/*Section 1*/
+	#carrousel ul li img {
+		left: -85%;
+	}
+	#carrousel ul li div h2 {
+		font-size: 1.8rem;
+	}
+	#carrousel ul li div p {
+		font-size: 1.25rem !important;
+	}
+	#carrousel ul li div a {
+		padding: 3px 10px;
+		font-size: 1.6rem;
+		width: auto;
+		height: auto;
+	}
 
+	.next, .prev {
+		font-size: 1.5rem;
+		padding: 35px 10px 35px 10px;
+	}
 
+	/*Section 2*/
+	#voletInfos {
+		margin-left: 0vw !important;
+	}
+	.fermetureVolet {
+		padding-top: 120px;
+	}
 
+	/*Section 3*/
+	#reservationActive h2 {
+		padding-top: 140px;
+		padding-bottom: 80px;
+	}
+	.blocVide {
+		display: none;
+	}
+	.infosReservation, .decompteReservation {
+		padding-right: 10vw;
+	}
+}
 
+/*Smartphone petite taille (ex: iPhoneSE)*/
+@media all and (max-width: 320px) {
+	/*Section 3*/
+	#reservationActive h2 {
+		padding-top: 140px;
+		padding-bottom: 0px;
+	}
+	hr {
+		margin: 10px 20% 10px 20%;
+	}
+}
 
 
 
@@ -531,4 +641,72 @@ hr {
                    	Adaptations diverses
 --------------------------------------------------------------------   */ 
 
+/*Adaptation laptop (1366x768)*/
+@media all and (max-width: 1366px) and (min-width: 415px) {
 
+	/*Section 1*/
+	#carrousel ul li div h2 {
+		font-size: 3rem;
+	}
+	#carrousel ul li div p {
+		font-size: 2rem;
+	}
+
+	/*Section 2*/
+	#voletInfos {
+		margin-left: 50vw;
+	}
+
+	/*Section 3*/
+	#reservationActive h2 {
+		padding: 150px 0 120px 10vw;
+	}
+}
+
+
+/*Correction du positionnement images du carrousel*/
+@media all and (max-width: 1238px) {
+	/*Section 1*/
+	#carrousel ul li img {
+		top: 80px;
+		width: auto;
+		height: 100%;
+	}
+}
+
+
+/*Adaptation de la barre de navigation*/
+@media all and (max-width: 713px) {
+
+	nav {
+		height: 120px;
+	}
+	.navigation li a {
+		width: 100vw;
+	}
+	.navigation {
+		margin-top: 0 !important;
+	}
+}
+
+/*Adaptation de la barre de navigation*/
+@media all and (max-width: 485px) {
+
+	.navigation li {
+		font-size: 0.8rem;
+	}
+	.navigation li a {
+		padding: 10px;
+	}
+}
+
+/*Adaptation de la barre de navigation*/
+@media all and (max-width: 485px) {
+
+	.navigation li {
+		font-size: 0.75rem;
+	}
+	.navigation li a {
+		padding: 7px;
+	}
+}

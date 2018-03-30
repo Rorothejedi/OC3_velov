@@ -10,6 +10,8 @@ function compteRebour() {
             .removeClass('navResaInactive');
         $('.reservation').removeAttr('id', 'reservationInactive')
             .attr('id', 'reservationActive');
+
+        // On affiche les informations liées à la réservation
         $('#reservationActive h2').text('Votre réservation en cours de validité');
         $('.infosReservation').html('Vous avez réservé 1 Vélo\'v à la station <strong>n\°' + sessionStation + '</strong>');
         $('.fa-bicycle').css('color', '#28A745');

@@ -2,6 +2,7 @@
 
 // On déclare les variables
 var canvas  = $('#canvas');
+var container = $('.canvasZone');
 var context = canvas[0].getContext('2d');
 
 var color = "#000";
@@ -11,6 +12,44 @@ var width_brush = 1;
 var cursorX, cursorY;
 var restoreCanvasArray = [];
 var restoreCanvasIndex = 0;
+
+
+
+//Redimentionnement du canvas (responsive)
+$(window).resize(canvasResponsive);
+
+function canvasResponsive() {
+    canvas.attr('width', canvas.width());
+    canvas.attr('height', canvas.height());
+
+   $('.confirmer').attr('disabled','disabled')
+		.attr('title','Signez dans le cadre pour pouvoir confirmer la réservation')
+		.addClass('confirmerInactif')
+		.removeClass('confirmerActif');
+}
+
+canvas.on('touchstart', function(e) {e.preventDefault()}, false);
+canvas.on('touchmove', function(e) {e.preventDefault()}, false);
+// window.blockMenuHeaderScroll = false;
+// $(window).on('touchstart', function(e)
+// {
+//     if ($(e.target).closest('#mobileMenuHeader').length == 1)
+//     {
+//         blockMenuHeaderScroll = true;
+//     }
+// });
+// $(window).on('touchend', function()
+// {
+//     blockMenuHeaderScroll = false;
+// });
+// $(window).on('touchmove', function(e)
+// {
+//     if (blockMenuHeaderScroll)
+//     {
+//         e.preventDefault();
+//     }
+// });
+
 
 // Trait arrondi
 context.lineJoin = 'round';
@@ -24,8 +63,6 @@ canvas.mousedown(function(e) {
 	cursorX = (e.pageX - this.offsetLeft);
 	cursorY = (e.pageY - this.offsetTop);
 });
-
-
 
 
 // Relachement du clic sur tout le document, on arrête de dessiner
@@ -89,3 +126,4 @@ $('#canvas').click(function() {
 		.addClass('confirmerActif')
 		.removeClass('confirmerInactif');
 })
+

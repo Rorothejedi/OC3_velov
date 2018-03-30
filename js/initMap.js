@@ -165,8 +165,6 @@ function initMap() {
             // On repositionne l'écran de l'utilisateur sur la carte
             $('html,body').animate({scrollTop: $("#carte").offset().top}, 'slow');
 
-
-
             // On initialise le volet d'information
             $('#voletInfos').fadeOut('fast');
 
@@ -219,28 +217,23 @@ function initMap() {
                 $('.name').text('N°' + marker.station);
                 $('.address').html(marker.address);
 
-
-                var nbVelo;
-                var nbStand;
+               
+                var nbVelo = marker.available_bikes;
+                var nbStand = marker.available_bike_stands;
 
                 // On vérifie l'existence d'une réservation pour le calcul du nombre de vélo disponible et on update de la dernière mise à jour de la station en cas de réservation
                 if (typeof sessionStation != 'undefined' && sessionStation != null && marker.available_bikes != 0 && sessionStation == marker.station) {
 
-                    nbVelo = marker.available_bikes - 1;
-                    nbStand = marker.available_bike_stands + 1;
-                    marker.last_update = sessionHeure;
-    
-                } else {
-
-                    nbVelo = marker.available_bikes;
-                    nbStand = marker.available_bike_stands;
+                    nbVelo = nbVelo - 1;
+                    nbStand = nbStand + 1;
                 }
 
                 // Affichage du nombre de places et de vélos disponibles
                 $('.available_bikes').html('Vélo(s) disponible(s) : <strong>' + nbVelo + '</strong>');
                 $('.available_bike_stands').html('Place(s) disponible(s) : <strong>' + nbStand + '</strong>');
 
-                if (marker.available_bikes === 0) {
+                // On active ou desactive le bouton de réservation en fonction du nombre de vélo'v restant
+                if (nbVelo === 0) {
                     $('.boutonReservationActif').attr('disabled','disabled')
                             .attr('title','Vous ne pouvez pas réserver car il n\'y a plus de Vélo\'v disponible')
                             .addClass('boutonReservationInactif')
@@ -261,7 +254,12 @@ function initMap() {
                     $('.status span').css('color', '#FB0000');
                 }
                 
+                // Mise à jour en temps réel du dernier update de la station
                 var tempsReel = setInterval(function() {
+
+                    if (typeof sessionStation != 'undefined' && sessionStation != null && sessionStation == marker.station) {
+                        marker.last_update = sessionHeure;
+                    }
 
                     var dateUpdate = new Date();
                     var updateStationVelo = Math.round((dateUpdate.getTime() - marker.last_update) / 1000 );
@@ -281,16 +279,33 @@ function initMap() {
 
                 $('.gmnoprint').click(function() {
                     clearInterval(tempsReel);
-                })
+                });
 
             }, 500);
 
-            // Ouverture du volet d'information
-            $('#map').animate({width: '75%'}, 'slow', function() {
-                $('.fa-times').fadeIn();
-                $('#voletInfos').fadeIn();
-            });
+            // Adaptation de la taille du volet en fonction de la taille de l'écran de l'utilisateur
+            if ($(window).width() > 1366) {
+                // Ouverture du volet d'information
+                $('#map').animate({width: '75%'}, 'slow', function() {
+                    $('.fa-times').fadeIn();
+                    $('#voletInfos').fadeIn();
+                    $('#voletInfos').css('display', 'flex');
+                });
+            } else if ($(window).width() <= 1366 && $(window).width() > 414) {
+                $('#map').animate({width: '50%'}, 'slow', function() {
+                    $('.fa-times').fadeIn();
+                    $('#voletInfos').fadeIn();
+                    $('#voletInfos').css('display', 'flex');
+                });
+            } else if ($(window).width() <= 414) {
+                $('#map').animate({width: '0%'}, 'slow', function() {
+                    $('.fa-times').fadeIn();
+                    $('#voletInfos').fadeIn();
+                    $('#voletInfos').css('display', 'flex');
+                });
+            }
 
+           
             // Fermeture du volet d'information au clic sur la croix
             $('.fa-times').on('click', function() {
                 reservationInactif('.fa-times');
@@ -309,6 +324,8 @@ function initMap() {
                     .removeClass('confirmerActif');
                 $('.remplacementCanva').fadeOut('fast', function() {
                     $('.blocCanva').fadeIn();
+                    $('.blocCanva').css('display', 'flex');
+                    canvasResponsive();
                 });
             });
 

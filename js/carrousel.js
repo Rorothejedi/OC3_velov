@@ -81,12 +81,17 @@ $(document).ready(function() {
 		var $barre = $('.barreChargementCarrousel');
 		$barre.stop(false,true);
 
-		$barre.animate({width: '100%'}, 10000, function() {
-			$barre.animate({opacity: '0'}, 800, function() {
-				$barre.css('width', '0%')
-					  .css('opacity', '1');
-			}); 
-		});
+		// Supression de l'animation pour les tablettes et mobiles
+		if ($(window).width() > 1024) {
+
+			$barre.animate({width: '100%'}, 10000, function() {
+				$barre.animate({opacity: '0'}, 800, function() {
+					$barre.css('width', '0%')
+						  .css('opacity', '1');
+				}); 
+			});
+
+		}
 	}
 
 	// Modification de la couleur des puces
@@ -143,20 +148,50 @@ $(document).ready(function() {
 					  .css('left', '0%');
 			arriereImage.css('display', 'block');
 
-			// On lance l'animation de l'image
-			arriereImage.animate({left: '100%'}, 800, function() {
+			// Supression de l'animation pour les tablettes et mobiles
+			if ($(window).width() > 1024) {
 
-				// Après l'animation, on incrémente le z-index pour que l'image en cours toujours soit devant
+				// On lance l'animation de l'image
+				arriereImage.animate({left: '100%'}, 800, function() {
+
+					// Après l'animation, on incrémente le z-index pour que l'image en cours toujours soit devant
+					compteurZindex++;
+
+					currentImg.css('left', '0%')
+								.css('z-index', compteurZindex);
+
+					if (backImg) { 
+						backImg.css('display', 'none');
+					}
+
+					arriereImage.css('display', 'none');
+					// On indique dans la variable que l'animation est terminée
+					animEnCours = false;
+					
+				});
+
+			} else if ($(window).width() <= 768 && $(window).width() > 414) {
+
 				compteurZindex++;
-
-				currentImg.css('left', '0%')
-							.css('z-index', compteurZindex);
-
-				if (backImg) { backImg.css('display', 'none');}
+				currentImg.css('left', '-50%').css('z-index', compteurZindex);
 				arriereImage.css('display', 'none');
-				// On indique dans la variable que l'animation est terminée
 				animEnCours = false;
-			});
+
+			} else if ($(window).width() <= 414) {
+
+				compteurZindex++;
+				currentImg.css('left', '-85%').css('z-index', compteurZindex);
+				arriereImage.css('display', 'none');
+				animEnCours = false;
+
+			} else {
+
+				compteurZindex++;
+				currentImg.css('left', '-8%').css('z-index', compteurZindex);
+				arriereImage.css('display', 'none');
+				animEnCours = false;
+				
+			}
 		}
 	}
 
@@ -185,22 +220,48 @@ $(document).ready(function() {
 					  .css('left', '0%');
 			arriereImage.css('display', 'block');
 
-			arriereImage.animate({left: '-100%'}, 800, function() {
+			// Supression de l'animation pour les tablettes et mobiles
+			if ($(window).width() > 1024) {
+
+				arriereImage.animate({left: '-100%'}, 800, function() {
+
+					compteurZindex++;
+					currentImg.css('left', '0%')
+							  .css('z-index', compteurZindex);
+
+					if (backImg) {
+						backImg.css('display', 'none');
+						backImgB.css('display', 'none');
+					} else if(backImgC) {
+						backImgC.css('display', 'none'); // A réparer !!!!!!!!!!!!!!!!!!!!!!!!!!  <---- todo
+					}
+
+					arriereImage.css('display', 'none');
+					animEnCours = false;
+				});
+
+			} else if ($(window).width() <= 768) {
 
 				compteurZindex++;
-				currentImg.css('left', '0%')
-						  .css('z-index', compteurZindex);
-
-				if (backImg) {
-					backImg.css('display', 'none');
-					backImgB.css('display', 'none');
-				} else if(backImgC) {
-					backImgC.css('display', 'none'); // A réparer !!!!!!!!!!!!!!!!!!!!!!!!!!  <---- todo
-				}
-
+				currentImg.css('left', '-50%').css('z-index', compteurZindex);
 				arriereImage.css('display', 'none');
 				animEnCours = false;
-			});
+
+			} else if ($(window).width() <= 414 && $(window).width() > 414) {
+
+				compteurZindex++;
+				currentImg.css('left', '-85%').css('z-index', compteurZindex);
+				arriereImage.css('display', 'none');
+				animEnCours = false;
+
+			} else {
+
+				compteurZindex++;
+				currentImg.css('left', '-8%').css('z-index', compteurZindex);
+				arriereImage.css('display', 'none');
+				animEnCours = false;
+
+			}
 		}
 	}
 
@@ -212,9 +273,6 @@ $(document).ready(function() {
 // BUG
 // réparer soucis au niveau du display block quand on passe de la dernière image 
 // à celle d'avant en venant à la base de la premiere
-
-// CORRECTION
-// Selectionner des images définitives
 
 // AJOUT
 // Faire le responsive du carrousel

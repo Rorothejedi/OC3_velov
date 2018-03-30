@@ -1,20 +1,36 @@
 // Script pour agrandir ou retrecir le menu de navigation au dela du top de la page
 $(window).scroll(function() {
 
-    if ($(window).scrollTop() > 50) {
+    // Supression de l'animation pour les tablettes et mobiles
+    if ($(window).width() > 1024) {
 
-    	$('nav').addClass('sticky');
-    	$('.logoAccueil a img').addClass('logoAccueilRedim');
-    	$('.navigation').removeClass('navigationInactive');
+        if ($(window).scrollTop() > 50) {
 
-    } else {
+        	$('nav').addClass('sticky');
+        	$('.logoAccueil a img').addClass('logoAccueilRedim');
+        	$('.navigation').removeClass('navigationInactive');
 
-        $('nav').removeClass('sticky');
-        $('.logoAccueil a img').removeClass('logoAccueilRedim');
-        $('.navigation').addClass('navigationInactive');
+        } else {
+
+            $('nav').removeClass('sticky');
+            $('.logoAccueil a img').removeClass('logoAccueilRedim');
+            $('.navigation').addClass('navigationInactive');
+        }
     }
 });
 
+// Script de repositionnement des boutons de navigations en fonction de leur nombre (2 ou 3)
+var $parent = $('.navResaInactive').parent();
+
+if ($(window).width() > 714) {
+
+    $parent.css('margin-top', '8px');
+
+} else if ($(window).width() < 714 && $(window).width() > 528) {
+    
+    $parent.css('margin-top', '40px');
+}
+        
 
 // Script pour initialiser le défilement fluide via les ancres
 $(document).on('click', 'a[href^="#"]', function (e) {
@@ -38,14 +54,14 @@ $(window).scroll(function() {
 
     if (scroll >= windowHeight * 0.7 && scroll < windowHeight * 1.5) {
         $navigationTop.css('color', 'black');
-        $navigationResa.css('color', 'red');
+        $navigationResa.css('color', '#FB0000');
         $navigationNow.css('color', 'black');
     } else if (scroll >= windowHeight * 1.5) {
         $navigationTop.css('color', 'black');
         $navigationResa.css('color', 'black');
-        $navigationNow.css('color', 'red');
+        $navigationNow.css('color', '#FB0000');
     } else {
-        $navigationTop.css('color', 'red');
+        $navigationTop.css('color', '#FB0000');
         $navigationResa.css('color', 'black');
         $navigationNow.css('color', 'black');
     }
