@@ -4,7 +4,7 @@ Réalisé par Rodolphe Cabotiau
 Date de début de projet : 19/03/2018
 Date d'achèvement : ../04/2018
 
-Dernière mise à jour : 30/03/2018 -->
+Dernière mise à jour : 03/04/2018 -->
 
 <!DOCTYPE html>
 
@@ -22,14 +22,14 @@ Dernière mise à jour : 30/03/2018 -->
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="https://rodolphe.cabotiau.com/projet_3_openclassrooms/">
 	<meta property="og:image" content="https://rodolphe.cabotiau.com/projet_3_openclassrooms/img/imgOpenGraph.jpg">
-	<meta property="og:description" content="Vous souhaitez vous déplacer dans Lyon en vélo'v ? Réservez-en un où que vous soyez, en seulement quelques instants !"/>
+	<meta property="og:description" content="Vous souhaitez vous déplacer dans Lyon en vélo'v ? Réservez-en un où que vous soyez en seulement quelques instants !"/>
 	<meta property="og:locale" content="fr_FR" />
 
 	<!-- Balises Twitter Card -->
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:site" content="@RCabotiau">
 	<meta name="twitter:title" content="Vélo'v | Réservez votre vélo et partez à l'aventure !">
-	<meta name="twitter:description" content="Vous souhaitez vous déplacer dans Lyon en vélo'v ? Réservez-en un où que vous soyez, en seulement quelques instants !">
+	<meta name="twitter:description" content="Vous souhaitez vous déplacer dans Lyon en vélo'v ? Réservez-en un où que vous soyez en seulement quelques instants !">
 	<meta name="twitter:creator" content="@RCabotiau">
 	<meta name="twitter:image" content="https://rodolphe.cabotiau.com/projet_3_openclassrooms/img/imgTwitterCard.jpg">
 
@@ -42,7 +42,7 @@ Dernière mise à jour : 30/03/2018 -->
 	<link rel="icon" type="image/x-icon" href="favicon.ico">
 
 	<!-- Feuille de style principale -->
-	<link rel="stylesheet" href="css/stylesheet.css">
+	<link rel="stylesheet" href="css/stylesheet.min.css">
 
 	<!-- CDN FontAwesome -->
 	<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script> 
@@ -54,7 +54,7 @@ Dernière mise à jour : 30/03/2018 -->
 
 <body>
 
-	<!-- En-tête de la page contenant le carrousel -->
+	<!-- //////////////////// Section 1 :  Carrousel \\\\\\\\\\\\\\\\\\\\\\ -->
 
 	<header id="accueil">
 
@@ -132,7 +132,7 @@ Dernière mise à jour : 30/03/2018 -->
 
 	</header>
 
-	<!-- Section contenant la google map -->
+	<!-- //////////////////// Section 2 :  Google Map \\\\\\\\\\\\\\\\\\\\\\ -->
 
 	<section id="carte">
 
@@ -143,7 +143,7 @@ Dernière mise à jour : 30/03/2018 -->
 		<div id="voletInfos">
 
 			<div class="fermetureVolet">
-				<i class="fas fa-times"></i>
+				<i class="fas fa-times" title="Fermer le volet d'information"></i>
 			</div>
 
 			<h2 class="name">Nom de la station</h2>
@@ -193,8 +193,7 @@ Dernière mise à jour : 30/03/2018 -->
 
 	</section>
 
-
-	<!-- Section contenant les réservations déjà faites -->
+	<!-- /////////////// Section 3 : Réservation en cours \\\\\\\\\\\\\\ -->
 
 	<section class='reservation' id="reservationInactive">
 
@@ -248,22 +247,15 @@ Dernière mise à jour : 30/03/2018 -->
 	<script src="js/scroll.js"></script>
 	<!-- Script pour le fonctionnement du canvas de dessin -->
 	<script src="js/canvas.js"></script>
+	<!-- Script pour le fonctionnement du canvas avec le tactile sur mobile -->
+	<script src="js/canvasMobile.js"></script>
+
 	<!-- Script pour le fonctionnement du compte à rebours et de la section de réservation -->
 	<script src="js/compteRebours.js"></script>
 
 	<!-- Sript appelant la fonction initMap pour initialiser la Google Map -->
 	<script src="js/initMap.js"></script>
 
-
 </body>
 
 </html>
-
-<!-- todo list -->
-
-<!-- A faire -->
-<!-- Faire en sorte que on puisse dessiner sur mobiles et tablettes aussi -->
-<!-- Passer le css à l'autoprefixer -->
-
-<!-- Correction de bugs divers -->
-<!-- Corriger les bugs du carrousels -->

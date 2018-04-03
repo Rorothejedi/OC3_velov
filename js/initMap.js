@@ -81,7 +81,7 @@ function initMap() {
     // On définit les options de la Google Map
     var mapOptions = {
         zoom: 13,
-        gestureHandling: 'greedy',
+        // gestureHandling: 'greedy',
         center: new google.maps.LatLng(45.76,4.855),
         fullscreenControl: false,
         streetViewControl: false,
@@ -148,6 +148,7 @@ function initMap() {
             oms.addMarker(marker);
         }
 
+        // On définit les points qui regroupent plusieurs marqueurs
         var markerClusterer = new MarkerClusterer(map, markers, {
             gridSize: 120,
             maxZoom: 16,
@@ -160,6 +161,8 @@ function initMap() {
         });
 
         var infoWindow = new google.maps.InfoWindow();
+
+        // Au clic sur un marqueur
         oms.addListener('click', function(marker, event) {
 
             // On repositionne l'écran de l'utilisateur sur la carte
@@ -217,7 +220,6 @@ function initMap() {
                 $('.name').text('N°' + marker.station);
                 $('.address').html(marker.address);
 
-               
                 var nbVelo = marker.available_bikes;
                 var nbStand = marker.available_bike_stands;
 
@@ -226,6 +228,7 @@ function initMap() {
 
                     nbVelo = nbVelo - 1;
                     nbStand = nbStand + 1;
+                    marker.last_update = sessionHeure;
                 }
 
                 // Affichage du nombre de places et de vélos disponibles
@@ -253,33 +256,26 @@ function initMap() {
                     $('.status').html('Cette station est actuellement <span> fermée </span>');
                     $('.status span').css('color', '#FB0000');
                 }
-                
-                // Mise à jour en temps réel du dernier update de la station
-                var tempsReel = setInterval(function() {
-
-                    if (typeof sessionStation != 'undefined' && sessionStation != null && sessionStation == marker.station) {
-                        marker.last_update = sessionHeure;
-                    }
-
-                    var dateUpdate = new Date();
-                    var updateStationVelo = Math.round((dateUpdate.getTime() - marker.last_update) / 1000 );
-
-                    var heures = Math.floor(updateStationVelo / 3600);
-                    var minutes = Math.floor(updateStationVelo / 60);
-                    var secondes = updateStationVelo % 60;
-                    
-                    if (heures) {
-                        $('.last_update').text('Dernière mise à jour il y a ' + heures + ' heures, ' + minutes + ' minutes et ' + secondes + ' secondes');
-                    } else if (minutes) {
-                        $('.last_update').text('Dernière mise à jour il y a ' + minutes + ' minutes et ' + secondes + ' secondes');
-                    } else {
-                        $('.last_update').text('Dernière mise à jour il y a ' + secondes + ' secondes');
-                    }
-                }, 0);
 
                 $('.gmnoprint').click(function() {
                     clearInterval(tempsReel);
                 });
+ 
+                // Mise à jour du dernier update de la station
+                var dateUpdate = new Date();
+                var updateStationVelo = Math.round((dateUpdate.getTime() - marker.last_update) / 1000 );
+
+                var heures = Math.floor(updateStationVelo / 3600);
+                var minutes = Math.floor(updateStationVelo / 60);
+                var secondes = updateStationVelo % 60;
+                
+                if (heures) {
+                    $('.last_update').text('Dernière mise à jour il y a ' + heures + ' heures, ' + minutes + ' minutes et ' + secondes + ' secondes');
+                } else if (minutes) {
+                    $('.last_update').text('Dernière mise à jour il y a ' + minutes + ' minutes et ' + secondes + ' secondes');
+                } else {
+                    $('.last_update').text('Dernière mise à jour il y a ' + secondes + ' secondes');
+                }
 
             }, 500);
 
@@ -304,7 +300,6 @@ function initMap() {
                     $('#voletInfos').css('display', 'flex');
                 });
             }
-
            
             // Fermeture du volet d'information au clic sur la croix
             $('.fa-times').on('click', function() {

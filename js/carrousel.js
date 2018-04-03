@@ -7,6 +7,9 @@ $(document).ready(function() {
 	var compteurZindex 	= 1;
 	var arriereImage;
 
+	var height = $(window).height();
+   	var width = $(window).width();
+
 	// Autoplay
 	var autoplay 	= setInterval(function() { Suivant(); }, 10000);
 	var animEnCours = false;
@@ -149,7 +152,7 @@ $(document).ready(function() {
 			arriereImage.css('display', 'block');
 
 			// Supression de l'animation pour les tablettes et mobiles
-			if ($(window).width() > 1024) {
+			if (width > 1024) {
 
 				// On lance l'animation de l'image
 				arriereImage.animate({left: '100%'}, 800, function() {
@@ -170,14 +173,22 @@ $(document).ready(function() {
 					
 				});
 
-			} else if ($(window).width() <= 768 && $(window).width() > 414) {
+			// Mode paysage mobile
+			} else if (width <= 740 && height < width) {
+
+				compteurZindex++;
+				currentImg.css('left', '0%').css('z-index', compteurZindex);
+				arriereImage.css('display', 'none');
+				animEnCours = false;
+
+			} else if (width <= 768 && width > 414) {
 
 				compteurZindex++;
 				currentImg.css('left', '-50%').css('z-index', compteurZindex);
 				arriereImage.css('display', 'none');
 				animEnCours = false;
 
-			} else if ($(window).width() <= 414) {
+			} else if (width <= 414) {
 
 				compteurZindex++;
 				currentImg.css('left', '-85%').css('z-index', compteurZindex);
@@ -190,7 +201,6 @@ $(document).ready(function() {
 				currentImg.css('left', '-8%').css('z-index', compteurZindex);
 				arriereImage.css('display', 'none');
 				animEnCours = false;
-				
 			}
 		}
 	}
@@ -221,7 +231,7 @@ $(document).ready(function() {
 			arriereImage.css('display', 'block');
 
 			// Supression de l'animation pour les tablettes et mobiles
-			if ($(window).width() > 1024) {
+			if (width > 1024) {
 
 				arriereImage.animate({left: '-100%'}, 800, function() {
 
@@ -240,14 +250,22 @@ $(document).ready(function() {
 					animEnCours = false;
 				});
 
-			} else if ($(window).width() <= 768) {
+			// Mode paysage mobile
+			} else if (width <= 740 && height < width) {
+
+				compteurZindex++;
+				currentImg.css('left', '0%').css('z-index', compteurZindex);
+				arriereImage.css('display', 'none');
+				animEnCours = false;
+
+			} else if (width <= 768 && width > 414) {
 
 				compteurZindex++;
 				currentImg.css('left', '-50%').css('z-index', compteurZindex);
 				arriereImage.css('display', 'none');
 				animEnCours = false;
 
-			} else if ($(window).width() <= 414 && $(window).width() > 414) {
+			} else if (width <= 414) {
 
 				compteurZindex++;
 				currentImg.css('left', '-85%').css('z-index', compteurZindex);
@@ -260,7 +278,6 @@ $(document).ready(function() {
 				currentImg.css('left', '-8%').css('z-index', compteurZindex);
 				arriereImage.css('display', 'none');
 				animEnCours = false;
-
 			}
 		}
 	}
@@ -273,6 +290,3 @@ $(document).ready(function() {
 // BUG
 // réparer soucis au niveau du display block quand on passe de la dernière image 
 // à celle d'avant en venant à la base de la premiere
-
-// AJOUT
-// Faire le responsive du carrousel

@@ -14,7 +14,6 @@ var restoreCanvasArray = [];
 var restoreCanvasIndex = 0;
 
 
-
 //Redimentionnement du canvas (responsive)
 $(window).resize(canvasResponsive);
 
@@ -28,37 +27,14 @@ function canvasResponsive() {
 		.removeClass('confirmerActif');
 }
 
-canvas.on('touchstart', function(e) {e.preventDefault()}, false);
-canvas.on('touchmove', function(e) {e.preventDefault()}, false);
-// window.blockMenuHeaderScroll = false;
-// $(window).on('touchstart', function(e)
-// {
-//     if ($(e.target).closest('#mobileMenuHeader').length == 1)
-//     {
-//         blockMenuHeaderScroll = true;
-//     }
-// });
-// $(window).on('touchend', function()
-// {
-//     blockMenuHeaderScroll = false;
-// });
-// $(window).on('touchmove', function(e)
-// {
-//     if (blockMenuHeaderScroll)
-//     {
-//         e.preventDefault();
-//     }
-// });
-
-
 // Trait arrondi
 context.lineJoin = 'round';
 context.lineCap = 'round';
 
-// Click souris enfoncé sur le canvas, on dessine
+// Clic souris enfoncé sur le canvas, on dessine
 canvas.mousedown(function(e) {
+
 	painting = true;
-	
 	// Coordonnées de la souris
 	cursorX = (e.pageX - this.offsetLeft);
 	cursorY = (e.pageY - this.offsetTop);
@@ -70,6 +46,7 @@ $(this).mouseup(function() {
 	painting = false;
 	started = false;
 });
+
 
 // Mouvement de la souris sur le canvas
 canvas.mousemove(function(e) {
@@ -83,6 +60,7 @@ canvas.mousemove(function(e) {
 		drawLine();
 	}
 });
+
 
 // Fonction qui dessine une ligne
 function drawLine() {
@@ -102,6 +80,7 @@ function drawLine() {
 	}
 }
 
+
 // Fonction bouton Reset
 function rafraichirCanvas (bouton) {
 	$(bouton).click(function() {
@@ -120,10 +99,9 @@ $('.fa-times, .rafraichir, .annuler').click(function() {
 })
 
 // Un clic sur le canvas permet à l'utilisateur de confirmer la réservation
-$('#canvas').click(function() {
+canvas.on('click touchend', function() {
 	$('.confirmer').removeAttr('disabled')
-		.removeAttr('title')
-		.addClass('confirmerActif')
-		.removeClass('confirmerInactif');
+	.removeAttr('title')
+	.addClass('confirmerActif')
+	.removeClass('confirmerInactif');
 })
-

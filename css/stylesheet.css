@@ -16,6 +16,8 @@ body {
 
 nav {
 	position: fixed;
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
 	-ms-flex-wrap: wrap;
 		flex-wrap: wrap;
@@ -23,6 +25,8 @@ nav {
 	height: 100px;
 	background-color: white;
 	z-index: 99999;
+	-webkit-transition: all 0.3s;
+	-o-transition: all 0.3s;
 	transition: all 0.3s;
 }
 .sticky {
@@ -42,6 +46,8 @@ nav {
 .logoAccueil a img {
 	width: 80%;
 	height: auto;
+	-webkit-transition: width 0.3s;
+	-o-transition: width 0.3s;
 	transition: width 0.3s;
 }
 .logoAccueilRedim {
@@ -62,6 +68,8 @@ nav {
 	color: black;
 	padding: 20px;
 	margin: auto;
+	-webkit-transition: color 0.3s;
+	-o-transition: color 0.3s;
 	transition: color 0.3s;
 }
 .navigationInactive {
@@ -93,6 +101,8 @@ nav {
  	height: 85vh;
 	overflow: hidden;
 	margin: auto;
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
 }
 #carrousel ul li img {
@@ -104,7 +114,8 @@ nav {
 	width: 100%;
 	height: auto;
     list-style: none;
-    filter: contrast(75%) grayscale(0.25) brightness(0.9);
+    -webkit-filter: contrast(75%) grayscale(0.25) brightness(0.9);
+            filter: contrast(75%) grayscale(0.25) brightness(0.9);
 }
 #carrousel ul li {
 	height: 0;
@@ -116,9 +127,16 @@ nav {
 #carrousel ul li div {
 	z-index: 9998;
 	position: absolute;
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-pack: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
 	top: 40%;
 	left: 20%;
 	right: 20%;
@@ -126,6 +144,8 @@ nav {
 	font-family: 'Amatic SC', cursive;
 	font-weight: bold;
 	opacity: 0;
+	-webkit-transition: opacity 0.3s;
+	-o-transition: opacity 0.3s;
 	transition: opacity 0.3s;
 }
 #carrousel ul li div h2 {
@@ -151,8 +171,11 @@ nav {
 	text-decoration: none;
 	padding: 10px;
 	border-radius: 10px;
+	-webkit-transition: color 0.3s, background-color 0.3s;
+	-o-transition: color 0.3s, background-color 0.3s;
 	transition: color 0.3s, background-color 0.3s;
-	box-shadow: 0px 10px 42px 0px rgba(0,0,0,0.75);
+	-webkit-box-shadow: 0px 10px 42px 0px rgba(0,0,0,0.75);
+	        box-shadow: 0px 10px 42px 0px rgba(0,0,0,0.75);
 }
 #carrousel ul li div a:hover {
 	color: white;
@@ -181,6 +204,8 @@ nav {
 	padding: 20px;
 	background-color: white;
 	cursor: pointer;
+	-webkit-transition: color 0.3s, background-color 0.3s;
+	-o-transition: color 0.3s, background-color 0.3s;
 	transition: color 0.3s, background-color 0.3s;
 }
 .next {
@@ -219,6 +244,8 @@ nav {
 
 #pucesCarrousel {
 	height: 15vh;
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
 	text-align: center;
 	background-color: #eee;
@@ -229,14 +256,19 @@ nav {
 	background-size: cover;
 	width: 100%;
 	height: 100%;
-	background-color: black;
 	cursor: pointer;
-	filter: grayscale(100%);
+	-webkit-filter: grayscale(100%);
+	        filter: grayscale(100%);
 	opacity: 0.3;
+	-webkit-transition: opacity 0.5s, -webkit-filter 0.5s;
+	transition: opacity 0.5s, -webkit-filter 0.5s;
+	-o-transition: opacity 0.5s, filter 0.5s;
 	transition: opacity 0.5s, filter 0.5s;
+	transition: opacity 0.5s, filter 0.5s, -webkit-filter 0.5s;
 }
 #pucesCarrousel li:hover {
-	filter: grayscale(0%);
+	-webkit-filter: grayscale(0%);
+	        filter: grayscale(0%);
 	opacity: 1 !important;
 }
 
@@ -259,7 +291,7 @@ nav {
 
 
 /*--------------------------------------------------------------------
-                   		Section 2 : Google Maps
+                   		Section 2 : Google Map
 --------------------------------------------------------------------   */   
 
 /*Carte*/
@@ -281,12 +313,16 @@ nav {
 	height: 100%;
 	margin-bottom: 0;
 	display: none;
-	flex-direction: column;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
 	margin-left: 75vw;
 	padding-right: 20px;
 	padding-left: 20px;
 	text-align: center;
-	justify-content: space-around;
+	-ms-flex-pack: distribute;
+	    justify-content: space-around;
 }
 .fermetureVolet {
 	text-align: right;
@@ -312,6 +348,8 @@ hr {
 	border: 2px solid #28A745;
 	color: white;
 	font-weight: bold;
+	-webkit-transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+	-o-transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 	transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 .boutonReservationActif:hover {
@@ -329,30 +367,41 @@ hr {
 }
 .remplacementCanva, .blocCanva {
 	height: 60%;
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
-	flex-direction: column;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
 }
 
 /*Bloc canva qui apparait au clic sur le bouton reservation*/
 
 .blocCanva {
 	display: none;
-	flex-direction: column;
-	justify-content: space-around;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
+	-ms-flex-pack: distribute;
+	    justify-content: space-around;
 }
 #canvas {
 	background-color: white;
 	border-radius: 8px;
 	cursor: crosshair;
 	border: 2px solid white;
+	-webkit-transition: border-color 0.5s;
+	-o-transition: border-color 0.5s;
 	transition: border-color 0.5s;
 	width: 100%;
 	height: 100%;
 	min-height: 150px;
-
-	touch-action: none;
 }
 .canvasZone {
+	display:-webkit-box;
+	display:-ms-flexbox;
 	display:flex;
     height: 50%;
 }
@@ -363,8 +412,11 @@ hr {
 /*Boutons du canvas*/
 
 .groupBoutons {
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
-	justify-content: space-around;
+	-ms-flex-pack: distribute;
+	    justify-content: space-around;
 }
 .groupBoutons button {
 	padding: 8px 12px 8px 12px;
@@ -377,6 +429,8 @@ hr {
 	background-color: #28A745;
 	border: 2px solid #28A745;
 	color: white;
+	-webkit-transition: border 0.3s, background-color 0.3s, color 0.3s, font-weight 0.3s;
+	-o-transition: border 0.3s, background-color 0.3s, color 0.3s, font-weight 0.3s;
 	transition: border 0.3s, background-color 0.3s, color 0.3s, font-weight 0.3s;
 }
 .confirmerActif:hover {
@@ -392,6 +446,8 @@ hr {
 	background-color: #6C757D;
 	color: white;
 	border: 2px solid #6C757D;
+	-webkit-transition: border 0.3s, background-color 0.3s, color 0.3s;
+	-o-transition: border 0.3s, background-color 0.3s, color 0.3s;
 	transition: border 0.3s, background-color 0.3s, color 0.3s;
 }
 .rafraichir:hover {
@@ -404,6 +460,8 @@ hr {
 	background-color: #FB0000;
 	color: white;
 	border: 2px solid #FB0000;
+	-webkit-transition: border 0.3s, background-color 0.3s, color 0.3s;
+	-o-transition: border 0.3s, background-color 0.3s, color 0.3s;
 	transition: border 0.3s, background-color 0.3s, color 0.3s;
 }
 .annuler:hover {
@@ -422,10 +480,14 @@ hr {
 	width: 25%;
 	height: 100%;
 	background-color: #E8E8E8;
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
 }
 
 #reservationActive {
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
 	height: 95vh;
 	background-color: rgb(250,250,250);
@@ -434,18 +496,26 @@ hr {
 	display: none;
 }
 #reservationActive h2 {
-	padding: 200px 0 120px 10vw;
+	padding: 200px 10vw 120px 10vw;
 }
 .infosReservation, .decompteReservation {
-	padding-left: 10vw; 
+	padding-left: 10%; 
 }
 .sectionResa {
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
-	flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	    flex-wrap: wrap;
 }
 .sectionResa div:last-child {
-	flex-direction: column;
-	justify-content: center;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-pack: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
 }
 .fa-bicycle {
 	font-size: 4em;
@@ -464,6 +534,8 @@ hr {
 	background-color: #FB0000;
 	color: white;
 	border: 2px solid #FB0000;
+	-webkit-transition: border 0.3s, background-color 0.3s, color 0.3s;
+	-o-transition: border 0.3s, background-color 0.3s, color 0.3s;
 	transition: border 0.3s, background-color 0.3s, color 0.3s;
 }
 .annulerResa:hover {
@@ -485,6 +557,8 @@ hr {
 	text-decoration: none;
 	background-color: #28A745;
 	color: white;
+	-webkit-transition: background-color 0.3s, color 0.3s;
+	-o-transition: background-color 0.3s, color 0.3s;
 	transition: background-color 0.3s, color 0.3s;
 }
 .autreResa:hover {
@@ -504,6 +578,8 @@ hr {
 	cursor: pointer;
 	font-weight: 700;
 	color: white;
+	-webkit-transition: background-color 0.3s, color 0.3s;
+	-o-transition: background-color 0.3s, color 0.3s;
 	transition: background-color 0.3s, color 0.3s;
 	padding: 8px 15px 8px 15px;
 	border: none;
@@ -545,6 +621,8 @@ hr {
 		width: 50%;
 	}
 	.navigationInactive {
+		display: -webkit-box;
+		display: -ms-flexbox;
 		display: flex;
 	}
 	.navigation {
@@ -578,7 +656,7 @@ hr {
                    	Responsive Mobiles
 --------------------------------------------------------------------   */
 
-/*Smartphone de grande taille (ex: iPhone 6 plus)*/
+/*Smartphone de grande taille portrait (ex: iPhone 6 plus)*/
 @media all and (max-width: 414px) {
 	/*Section 1*/
 	#carrousel ul li img {
@@ -596,7 +674,6 @@ hr {
 		width: auto;
 		height: auto;
 	}
-
 	.next, .prev {
 		font-size: 1.5rem;
 		padding: 35px 10px 35px 10px;
@@ -607,7 +684,7 @@ hr {
 		margin-left: 0vw !important;
 	}
 	.fermetureVolet {
-		padding-top: 120px;
+		padding-top: 150px;
 	}
 
 	/*Section 3*/
@@ -623,8 +700,15 @@ hr {
 	}
 }
 
-/*Smartphone petite taille (ex: iPhoneSE)*/
+/*Smartphone petite taille portrait (ex: iPhoneSE)*/
 @media all and (max-width: 320px) {
+	/*Section 2*/
+	.fermetureVolet {
+		padding-top: 125px;
+	}
+	.last_update {
+		margin-top: -35px;
+	}
 	/*Section 3*/
 	#reservationActive h2 {
 		padding-top: 140px;
@@ -634,6 +718,132 @@ hr {
 		margin: 10px 20% 10px 20%;
 	}
 }
+
+/*Paysage*/
+
+/*Smartphone de grande taille landscape (ex: iPhone 6 plus)*/
+@media all and (max-width: 740px) and (orientation: landscape) {
+
+	/*Barre de navigation*/
+	nav {
+		height: 40px !important;
+	}
+	.navigation li a {
+		font-size: 1.3rem;
+	}
+	.navigation {
+		margin-top: 5px !important;
+	}
+
+	/*Section 1*/
+	#carrousel ul li img {
+		top: 0 !important;
+		left: 0%;
+		width: 100% !important;
+		height: auto !important;
+	}
+	#carrousel ul li div h2 {
+		font-size: 1.7rem;
+	}
+	#carrousel ul li div p {
+		font-size: 1.4rem !important;
+	}
+	#carrousel ul li div {
+		top: 28%;
+	}
+	#carrousel ul li div a {
+		padding: 3px 10px;
+		font-size: 1.6rem;
+		width: auto;
+		height: auto;
+	}
+	.next, .prev {
+		font-size: 1.5rem;
+		padding: 35px 10px 35px 10px;
+	}
+
+	/*Section 2*/
+	.fermetureVolet {
+		padding-top: 40px;
+	}
+	.name {
+		font-size: 1rem;
+	}
+	.arrondissement, .address, .available_bikes, .available_bike_stands, .status, .blocCanva div p {
+		font-size: 0.8rem;
+	}
+	hr {
+		margin: 8px 20% 8px 20%;
+	}
+	.boutonReservationActif {
+		margin: 10px auto 10px auto;
+	}
+	.groupBoutons button {
+		padding: 1px 12px 1px 12px;
+	}
+	#canvas {
+		min-height: 80px;
+	}
+	/*Section 3*/
+	#reservationActive h2 {
+		padding: 40px 0 20px 10vw !important;
+	}
+	.annulerResa, .confirmationTexte {
+		margin-top: 30px;
+	}
+}
+
+@media all and (max-width: 667px) and (orientation: landscape) {
+
+	/*Barre de navigation*/
+	.navigation {
+		margin-top: 10px !important;
+	}
+
+	/*Section 1*/
+	#carrousel ul li div h2 {
+		font-size: 1.5rem;
+	}
+	#carrousel ul li div p {
+		font-size: 1.3rem !important;
+	}
+}
+
+@media all and (max-width: 667px) and (orientation: landscape) {
+
+	.navigation li a {
+		font-size: 1.15rem;
+	}
+}
+
+@media all and (max-width: 630px) and (orientation: landscape) {
+
+	.navigation li a {
+		font-size: 0.75rem;
+	}
+	/*Section 1*/
+	#carrousel ul li div h2 {
+		font-size: 2rem !important;
+	}
+	#carrousel ul li div p {
+		font-size: 1rem !important;
+	}
+
+	/*Section 2 et 3*/
+	.arrondissement, .address, .available_bikes, .available_bike_stands, .status, .blocCanva div p, .confirmationTexte {
+		font-size: 0.7rem;
+	}
+	.blocCanva div small {
+		font-size: 0.5rem;
+	}
+	.confirmation, .retour, .autreResa, .confirmationTexte {
+		margin-top: 10px;
+	}
+	hr {
+		margin: 3px 20% 3px 20%;
+	}
+}
+
 
 
 
@@ -681,12 +891,12 @@ hr {
 	nav {
 		height: 120px;
 	}
-	.navigation li a {
-		width: 100vw;
-	}
 	.navigation {
 		margin-top: 0 !important;
 	}
+	.infosReservation, .decompteReservation {
+	padding-left: 10vw; 
+}
 }
 
 /*Adaptation de la barre de navigation*/
