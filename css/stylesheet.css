@@ -66,7 +66,8 @@ nav {
 	font-weight: bold;
 	font-size: 1.5em;
 	color: black;
-	padding: 20px;
+	padding-right: 20px;
+	padding-left: 20px;
 	margin: auto;
 	-webkit-transition: color 0.3s;
 	-o-transition: color 0.3s;
@@ -625,9 +626,9 @@ hr {
 		display: -ms-flexbox;
 		display: flex;
 	}
-	.navigation {
+	/*.navigation {
 		margin-top: 15px !important;
-	}
+	}*/
 
 	/*Section 1*/
 	#carrousel ul li img {
@@ -658,6 +659,12 @@ hr {
 
 /*Smartphone de grande taille portrait (ex: iPhone 6 plus)*/
 @media all and (max-width: 414px) {
+	/*Barre de navigation*/
+	/*.navigation li a {
+		padding-right: 4px;
+		padding-left: 4px;
+	}
+*/
 	/*Section 1*/
 	#carrousel ul li img {
 		left: -85%;
@@ -702,6 +709,14 @@ hr {
 
 /*Smartphone petite taille portrait (ex: iPhoneSE)*/
 @media all and (max-width: 320px) {
+	/*Barre de navigation*/
+	.navigation li {
+		font-size: 0.8rem;
+	}
+	.navigation li a {
+		padding-right: 4px;
+		padding-left: 4px;
+	}
 	/*Section 2*/
 	.fermetureVolet {
 		padding-top: 125px;
@@ -891,9 +906,9 @@ hr {
 	nav {
 		height: 120px;
 	}
-	.navigation {
+	/*.navigation {
 		margin-top: 0 !important;
-	}
+	}*/
 	.infosReservation, .decompteReservation {
 	padding-left: 10vw; 
 }
@@ -902,21 +917,21 @@ hr {
 /*Adaptation de la barre de navigation*/
 @media all and (max-width: 485px) {
 
-	.navigation li {
+	/*.navigation li {
 		font-size: 0.8rem;
-	}
-	.navigation li a {
+	}*/
+	/*.navigation li a {
 		padding: 10px;
-	}
+	}*/
 }
 
 /*Adaptation de la barre de navigation*/
 @media all and (max-width: 485px) {
 
-	.navigation li {
+	/*.navigation li {
 		font-size: 0.75rem;
 	}
 	.navigation li a {
 		padding: 7px;
-	}
+	}*/
 }

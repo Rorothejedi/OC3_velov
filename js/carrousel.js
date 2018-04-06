@@ -1,292 +1,315 @@
-$(document).ready(function() {
-    
-	var $img 			= $('#carrousel ul li img');
-	var indexImg 		= $img.length - 1;
-	var numeroImage 	= 0;
-	var currentImg 		= $img.eq(numeroImage);
-	var compteurZindex 	= 1;
-	var arriereImage;
 
-	var height = $(window).height();
-   	var width = $(window).width();
+// -----------------------OBJET carrousel : PROPRIETES ET METHODES---------------------------
 
-	// Autoplay
-	var autoplay 	= setInterval(function() { Suivant(); }, 10000);
-	var animEnCours = false;
+// Création de l'objet carrousel
+var carrousel = {
+
+	$img 			: $('#carrousel ul li img'),
+	indexImg 		: $('#carrousel ul li img').length - 1,
+
+	numeroImage 	: 0,
+	compteurZindex 	: 1,
+	arriereImage 	: '',
+	animEnCours 	: false,
+	play			: '',
+
+	height 			: $(window).height(),
+	width 			: $(window).width(),
+
+	// Méthode d'initialisation du carrousel
+	init 			: function () {
+
+		this.$img.eq(this.numeroImage).css('z-index', this.compteurZindex)
+		  							  .css('display', 'block');
+		this.couleurPuces();
+		this.barreProgression($('.barreChargementCarrousel'));
+		this.textImage();
+
+		// ---- Evenements ----
+
+		// image suivante au clic
+		$('.next').on('click', function() { 
+			carrousel.suivant();
+		});
+
+		// image précédente au clic
+		$('.prev').on('click', function() { 
+		 	carrousel.precedent();
+		});
+
+		// Possibilité d'action avec les touches du clavier (suivant ou précédent)
+		$('body').keydown(function(e) {
+
+			switch (e.which) {
+
+				case 37	: // fleche gauche
+				case 100: // pavé num 4
+				case 81	: // touche q
+					carrousel.precedent();
+					break;
+
+				case 39	: // fleche droite
+				case 102: // pavé num 6
+				case 68 : // touche d
+					carrousel.suivant();
+					break;
+			}
+		});
+
+		// Evenements d'interaction avec les puces (vignettes)
+		$('#pucesCarrousel li').on('click', function() {
+
+			var indexLi = $("#pucesCarrousel li" ).index(this);
+
+			if (carrousel.numeroImage > indexLi) {
+
+				carrousel.numeroImage = indexLi + 1;
+				carrousel.precedent();
+
+			} else if (carrousel.numeroImage < indexLi) {
+
+				carrousel.numeroImage = indexLi - 1;
+				carrousel.suivant();
+			}
+		});
+	},
+
+	// Méthode d'autoplay (défilement automatique des images)
+	autoplay 		: function() {
+
+		this.play = setInterval(function() { 
+			carrousel.suivant(); 
+		}, 10000);
+	},
+
+	// Méthode de passage à l'image suivant incluant l'autoplay
+	suivant 		: function () {
+
+		clearInterval(this.play);
+		this.barreProgression($('.barreChargementCarrousel'));
+	   	this.imageSuiv(this.$img.eq(this.numeroImage));
+	   	this.textImage();
+	   	this.couleurPuces();
+	   	this.autoplay();
+
+	},
+
+	// Méthode de retour à l'image précédente incluant l'autoplay
+	precedent 		: function() {
+
+		clearInterval(this.play);
+		this.barreProgression($('.barreChargementCarrousel'));
+	 	this.imagePrec(this.$img.eq(this.numeroImage));
+	 	this.textImage();
+	 	this.couleurPuces();
+	 	this.autoplay();
+	},
+
 	
-	currentImg.css('z-index', compteurZindex)
-			  .css('display', 'block');
+	// Méthode de mise en avant de chacun des textes
+	textImage		: function() {
 
-	couleurPuces();
-	barreProgression();
-	textImage();
-
-
-	// -----------------------EVENEMENTS---------------------------
-
-	// image suivante au clic
-	$('.next').on('click', function() { 
-		Suivant();
-	});
-
-	// image précédente au clic
-	$('.prev').on('click', function() { 
-	 	Precedent();
-	});
-
-	// Possibilité d'action avec les touches du clavier (suivant ou précédent)
-	$('body').keydown(function(e) {
-
-		switch (e.which) {
-			case 37	: // fleche gauche
-			case 100: // pavé num 4
-			case 81	: // touche q
-				Precedent();
-				break;
-			case 39	: // fleche droite
-			case 102: // pavé num 6
-			case 68 : // touche d
-				Suivant();
-				break;
-		}
-	});
-
-	// Evenenments d'interaction avec les puces (vignettes)
-	$('#pucesCarrousel li').on('click', function() {
-
-		var indexLi = $("#pucesCarrousel li" ).index(this);
-
-		if (numeroImage > indexLi) {
-			numeroImage = indexLi + 1;
-			Precedent();
-		} else if (numeroImage < indexLi) {
-			numeroImage = indexLi - 1;
-			Suivant();
-		}
-	});
-
-	// ----------------------FONCTIONS-----------------------------
-
-	// Fonction de mise en avant de chacun des textes
-	function textImage() {
-	
-		var numText = numeroImage + 1;
+		var numText = this.numeroImage + 1;
 		var text = '#carrouselContenu li:nth-of-type(' + numText + ') div';
 
 		$('#carrouselContenu li div').removeClass('textActif');
 		$(text).addClass('textActif');
-		
-	};
+	},
 
-	// Fonction de l'animation de la barre de progression
-	function barreProgression() {
+	// Méthode de l'animation de la barre de progression
+	barreProgression : function(element) {
 
-		var $barre = $('.barreChargementCarrousel');
-		$barre.stop(false,true);
+		element.stop(false,true);
 
-		// Supression de l'animation pour les tablettes et mobiles
-		if ($(window).width() > 1024) {
-
-			$barre.animate({width: '100%'}, 10000, function() {
-				$barre.animate({opacity: '0'}, 800, function() {
-					$barre.css('width', '0%')
+		// Animation uniquement pour les écrans de plus de 1024px de largeur
+		if (this.width > 1024) {
+			element.animate({width: '100%'}, 10000, function() {
+				element.animate({opacity: '0'}, 800, function() {
+					element.css('width', '0%')
 						  .css('opacity', '1');
 				}); 
 			});
-
 		}
-	}
+	},
 
-	// Modification de la couleur des puces
-	function couleurPuces() {
+	// Méthode de modifiation de la couleur des puces
+	couleurPuces : function() {
 
-		var vignette = numeroImage + 1;
+		var vignette = this.numeroImage + 1;
 		var $imgVignette = '#pucesCarrousel li:nth-of-type(' + vignette + ')';
 
 		$('#pucesCarrousel li').removeClass();
 		$($imgVignette).addClass('puceActive');
-	}
+	},
 
-	// Fonction de passage à l'image suivant incluant l'autoplay
-	function Suivant() {
-		clearInterval(autoplay);
-		barreProgression();
-	   	imageSuiv();
-	   	textImage();
-	   	couleurPuces();
-	   	autoplay = setInterval(function() { Suivant(); }, 10000);
-	}
+	// Méthode pour passer à l'image suivante 
+	imageSuiv : function(imageCourante) {
 
-	// Fonction de retour à l'image précédente incluant l'autoplay
-	function Precedent() {
-		clearInterval(autoplay);
-		barreProgression();
-	 	imagePrec();
-	 	textImage();
-	 	couleurPuces();
-	 	autoplay = setInterval(function() { Suivant(); }, 10000);
-	}
+		if(this.animEnCours === false){
 
-	// Fonction pour passer à l'image suivante 
-	function imageSuiv() {
+    		this.animEnCours = true; 
 
-		if(animEnCours === false){
-    		animEnCours = true; 
+			if(this.numeroImage < this.indexImg){
 
-			if( numeroImage < indexImg ){
-
-			    numeroImage++;
-			    backImg 	 = $img.eq(numeroImage - 2);
-			    arriereImage = $img.eq(numeroImage - 1);
-			    currentImg   = $img.eq(numeroImage);
+			    this.numeroImage++;
+			    var backImg 	  = this.$img.eq(this.numeroImage - 2);
+			    this.arriereImage = this.$img.eq(this.numeroImage - 1);
+			    imageCourante  	  = this.$img.eq(this.numeroImage);
 
 			} else {
-			    numeroImage  = 0;
-			    arriereImage = $img.eq(indexImg);
-			    currentImg   = $img.eq(numeroImage);
+			    this.numeroImage  = 0;
+			    this.arriereImage = this.$img.eq(this.indexImg);
+			    imageCourante     = this.$img.eq(this.numeroImage);
 			}
 
 			// On initialise l'image en cours et l'image derrière
-			currentImg.css('display', 'block')
-					  .css('left', '0%');
-			arriereImage.css('display', 'block');
+			imageCourante.css('display', 'block')
+					  	 .css('left', '0%');
+
+			this.arriereImage.css('display', 'block');
 
 			// Supression de l'animation pour les tablettes et mobiles
-			if (width > 1024) {
+			if (this.width > 1024) {
 
 				// On lance l'animation de l'image
-				arriereImage.animate({left: '100%'}, 800, function() {
+				carrousel.arriereImage.animate({left: '100%'}, 800, function() {
 
 					// Après l'animation, on incrémente le z-index pour que l'image en cours toujours soit devant
-					compteurZindex++;
+					carrousel.compteurZindex++;
 
-					currentImg.css('left', '0%')
-								.css('z-index', compteurZindex);
+					imageCourante.css('left', '0%')
+								.css('z-index', carrousel.compteurZindex);
 
 					if (backImg) { 
 						backImg.css('display', 'none');
 					}
 
-					arriereImage.css('display', 'none');
+					carrousel.arriereImage.css('display', 'none');
 					// On indique dans la variable que l'animation est terminée
-					animEnCours = false;
+					carrousel.animEnCours = false;
 					
 				});
 
 			// Mode paysage mobile
-			} else if (width <= 740 && height < width) {
+			} else if (this.width <= 740 && this.height < this.width) {
 
-				compteurZindex++;
-				currentImg.css('left', '0%').css('z-index', compteurZindex);
-				arriereImage.css('display', 'none');
-				animEnCours = false;
+				this.compteurZindex++;
+				imageCourante.css('left', '0%')
+							 .css('z-index', this.compteurZindex);
+				this.arriereImage.css('display', 'none');
+				this.animEnCours = false;
 
-			} else if (width <= 768 && width > 414) {
+			} else if (this.width <= 768 && width > 414) {
 
-				compteurZindex++;
-				currentImg.css('left', '-50%').css('z-index', compteurZindex);
-				arriereImage.css('display', 'none');
-				animEnCours = false;
+				this.compteurZindex++;
+				imageCourante.css('left', '-50%')
+							 .css('z-index', this.compteurZindex);
+				this.arriereImage.css('display', 'none');
+				this.animEnCours = false;
 
-			} else if (width <= 414) {
+			} else if (this.width <= 414) {
 
-				compteurZindex++;
-				currentImg.css('left', '-85%').css('z-index', compteurZindex);
-				arriereImage.css('display', 'none');
-				animEnCours = false;
+				this.compteurZindex++;
+				imageCourante.css('left', '-85%')
+							 .css('z-index', this.compteurZindex);
+				this.arriereImage.css('display', 'none');
+				this.animEnCours = false;
 
 			} else {
 
-				compteurZindex++;
-				currentImg.css('left', '-8%').css('z-index', compteurZindex);
-				arriereImage.css('display', 'none');
-				animEnCours = false;
+				this.compteurZindex++;
+				imageCourante.css('left', '-8%')
+							 .css('z-index', this.compteurZindex);
+				this.arriereImage.css('display', 'none');
+				this.animEnCours = false;
 			}
 		}
-	}
+	},
 
-	// Fonction pour passer à l'image précédente (fonctionnement similaire à la fonction 'imageSuiv')
-	function imagePrec() {
+	// Méthode pour passer à l'image précédente (fonctionnement similaire à la méthode 'imageSuiv')
+	imagePrec : function(imageCourante) {
 
-		if(animEnCours === false){
-    		animEnCours = true; 
+		if(this.animEnCours === false) {
 
-			if ( numeroImage === 0 ) {
+    		this.animEnCours = true; 
 
-				numeroImage  = indexImg;
-				arriereImage = $img.eq(0);
-			    currentImg   = $img.eq(numeroImage);
-			    var backImgC = $img.eq(4); // A réparer !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! <--- todo
+			if ( this.numeroImage === 0 ) {
+
+				this.numeroImage  = this.indexImg;
+				this.arriereImage = this.$img.eq(0);
+			    imageCourante 	  = this.$img.eq(this.numeroImage);
+			    var backImgC 	  = this.$img.eq(4);
 
 			} else {
-				numeroImage--;
-			    arriereImage = $img.eq(numeroImage + 1);
-			    var backImg  = $img.eq(numeroImage + 2);
-			    var backImgB = $img.eq(numeroImage + 3);
-			    currentImg   = $img.eq(numeroImage);
+				this.numeroImage--;
+			    this.arriereImage = carrousel.$img.eq(this.numeroImage + 1);
+			    var backImg 	  = this.$img.eq(this.numeroImage + 2);
+			    var backImgB 	  = this.$img.eq(this.numeroImage + 3);
+			    imageCourante 	  = this.$img.eq(this.numeroImage);
 			}
 
-			currentImg.css('display', 'block')
-					  .css('left', '0%');
-			arriereImage.css('display', 'block');
+			imageCourante.css('display', 'block')
+					  	 .css('left', '0%');
+
+			this.arriereImage.css('display', 'block');
 
 			// Supression de l'animation pour les tablettes et mobiles
-			if (width > 1024) {
+			if (this.width > 1024) {
 
-				arriereImage.animate({left: '-100%'}, 800, function() {
+				carrousel.arriereImage.animate({left: '-100%'}, 800, function() {
 
-					compteurZindex++;
-					currentImg.css('left', '0%')
-							  .css('z-index', compteurZindex);
+					carrousel.compteurZindex++;
+					imageCourante.css('left', '0%')
+							  	 .css('z-index', carrousel.compteurZindex);
 
 					if (backImg) {
 						backImg.css('display', 'none');
 						backImgB.css('display', 'none');
 					} else if(backImgC) {
-						backImgC.css('display', 'none'); // A réparer !!!!!!!!!!!!!!!!!!!!!!!!!!  <---- todo
+						backImgC.css('display', 'none');
 					}
 
-					arriereImage.css('display', 'none');
-					animEnCours = false;
+					carrousel.arriereImage.css('display', 'none');
+					carrousel.animEnCours = false;
 				});
 
 			// Mode paysage mobile
-			} else if (width <= 740 && height < width) {
+			} else if (this.width <= 740 && this.height < this.width) {
 
-				compteurZindex++;
-				currentImg.css('left', '0%').css('z-index', compteurZindex);
-				arriereImage.css('display', 'none');
-				animEnCours = false;
+				carrousel.compteurZindex++;
+				imageCourante.css('left', '0%')
+							 .css('z-index', carrousel.compteurZindex);
+				carrousel.arriereImage.css('display', 'none');
+				carrousel.animEnCours = false;
 
-			} else if (width <= 768 && width > 414) {
+			} else if (this.width <= 768 && this.width > 414) {
 
-				compteurZindex++;
-				currentImg.css('left', '-50%').css('z-index', compteurZindex);
-				arriereImage.css('display', 'none');
-				animEnCours = false;
+				carrousel.compteurZindex++;
+				imageCourante.css('left', '-50%')
+							 .css('z-index', carrousel.compteurZindex);
+				carrousel.arriereImage.css('display', 'none');
+				carrousel.animEnCours = false;
 
-			} else if (width <= 414) {
+			} else if (this.width <= 414) {
 
-				compteurZindex++;
-				currentImg.css('left', '-85%').css('z-index', compteurZindex);
-				arriereImage.css('display', 'none');
-				animEnCours = false;
+				carrousel.compteurZindex++;
+				imageCourante.css('left', '-85%')
+							 .css('z-index', carrousel.compteurZindex);
+				carrousel.arriereImage.css('display', 'none');
+				carrousel.animEnCours = false;
 
 			} else {
 
-				compteurZindex++;
-				currentImg.css('left', '-8%').css('z-index', compteurZindex);
-				arriereImage.css('display', 'none');
-				animEnCours = false;
+				carrousel.compteurZindex++;
+				imageCourante.css('left', '-8%')
+							 .css('z-index', carrousel.compteurZindex);
+				carrousel.arriereImage.css('display', 'none');
+				carrousel.animEnCours = false;
 			}
 		}
 	}
+};
 
-});
 
-// todo list
-//-----------------------------------------------------------------
-
-// BUG
-// réparer soucis au niveau du display block quand on passe de la dernière image 
-// à celle d'avant en venant à la base de la premiere
+// Lancement de la méthode d'initialisation du carrousel
+carrousel.init();

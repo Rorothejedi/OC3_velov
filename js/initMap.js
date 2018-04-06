@@ -104,17 +104,17 @@ function initMap() {
     var Stations = '';
 
     ajaxGet("https://api.jcdecaux.com/vls/v1/stations?contract=Lyon&apiKey=9590be8e47d7154bf9cc5784f23eb168c68e79ef", function (reponse) {
-        // Création de l'objet Stations
+
+        // L'objet Station contient maintenant les données actualises de l'API JCDecaux
         Stations = JSON.parse(reponse);
 
-        
         var markers = [];
 
         for (var i = 0; i < Stations.length; i++) {
 
-            var icon;
             // On calcule le pourcentage de vélo disponible à chaque station et on modifie l'icône du marqueur en fonction
             var operation = (Stations[i].available_bikes * 100) / Stations[i].bike_stands;
+            var icon;
 
             if (Stations[i].status != 'OPEN') {
                 icon = 'img/poi-chantier.png';
@@ -256,10 +256,6 @@ function initMap() {
                     $('.status').html('Cette station est actuellement <span> fermée </span>');
                     $('.status span').css('color', '#FB0000');
                 }
-
-                $('.gmnoprint').click(function() {
-                    clearInterval(tempsReel);
-                });
  
                 // Mise à jour du dernier update de la station
                 var dateUpdate = new Date();
@@ -320,7 +316,8 @@ function initMap() {
                 $('.remplacementCanva').fadeOut('fast', function() {
                     $('.blocCanva').fadeIn();
                     $('.blocCanva').css('display', 'flex');
-                    canvasResponsive();
+                    // Utilisation de la méthode canvasResponsive de l'objet signature
+                    signature.canvasResponsive();
                 });
             });
 
@@ -334,9 +331,9 @@ function initMap() {
             }
 
             reservationInactif('.annuler');
-            rafraichirCanvas('.annuler');
-            rafraichirCanvas('.fa-times');
-            rafraichirCanvas('.boutonReservationActif');
+            signature.rafraichirCanvas('.annuler');
+            signature.rafraichirCanvas('.fa-times');
+            signature.rafraichirCanvas('.boutonReservationActif');
 
 
             // --------------------------Gestion de la réservation------------------------
@@ -353,12 +350,12 @@ function initMap() {
                     sessionStation = sessionStorage.getItem('station');
                     sessionHeure = sessionStorage.getItem('heure');
 
-                    compteRebour();
+                    countdown.init();
                     
                     if (typeof sessionStation != 'undefined') {
 
                         // On vide le canvas
-                        context.clearRect(0, 0, canvas[0].width, canvas[0].height);
+                       signature.context.clearRect(0, 0, signature.canvas[0].width, signature.canvas[0].height);
 
                         // On réinitialise le volet d'information de la Google Map
                         $('.blocCanva').fadeOut('fast', function() {
@@ -381,11 +378,11 @@ function initMap() {
 
 // Lancement de la fonction initMap au chargement de la page
 window.onload = function() {
-    initMap(); 
+    initMap();
 };
 
 // Récupération du contenu des variables de session
 sessionStation = sessionStorage.getItem('station');
 sessionHeure = sessionStorage.getItem('heure');
 
-compteRebour();
+countdown.init();

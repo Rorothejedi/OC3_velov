@@ -1,107 +1,169 @@
-// -------------------------------Gestion du canvas------------------------------------
+// -----------------------OBJET signature : PROPRIETES ET METHODES---------------------------
 
-// On déclare les variables
-var canvas  = $('#canvas');
-var container = $('.canvasZone');
-var context = canvas[0].getContext('2d');
+// Création de l'objet signature
+var signature = {
 
-var color = "#000";
-var painting = false;
-var started = false;
-var width_brush = 1;
-var cursorX, cursorY;
-var restoreCanvasArray = [];
-var restoreCanvasIndex = 0;
+	canvas  	: $('#canvas'),
+	context 	: $('#canvas')[0].getContext('2d'),
 
+	painting 	: false,
+	started 	: false,
+	
+	cursorX 	: '',
+	cursorY 	: '',
+	
+	// Méthode d'initialisation de l'objet signature
+	init 		: function () {
 
-//Redimentionnement du canvas (responsive)
-$(window).resize(canvasResponsive);
+		// Trait arrondi
+		this.context.lineJoin = 'round';
+		this.context.lineCap  = 'round';
 
-function canvasResponsive() {
-    canvas.attr('width', canvas.width());
-    canvas.attr('height', canvas.height());
-
-   $('.confirmer').attr('disabled','disabled')
-		.attr('title','Signez dans le cadre pour pouvoir confirmer la réservation')
-		.addClass('confirmerInactif')
-		.removeClass('confirmerActif');
-}
-
-// Trait arrondi
-context.lineJoin = 'round';
-context.lineCap = 'round';
-
-// Clic souris enfoncé sur le canvas, on dessine
-canvas.mousedown(function(e) {
-
-	painting = true;
-	// Coordonnées de la souris
-	cursorX = (e.pageX - this.offsetLeft);
-	cursorY = (e.pageY - this.offsetTop);
-});
+		// Lancement méthode de Reset
+		this.rafraichirCanvas('.rafraichir');
 
 
-// Relachement du clic sur tout le document, on arrête de dessiner
-$(this).mouseup(function() {
-	painting = false;
-	started = false;
-});
+		// ---- Gestion mouvements à la souris ----
+
+		// Clic souris enfonce sur le canvas
+		this.canvas.mousedown(function(e) {
+			signature.moveStart(e, false);
+		});
+			
+		// Relachement du clic sur tout le document
+		this.canvas.mouseup(function() {
+			signature.moveEnd();
+		});
+			
+		// Mouvement de la souris sur le canvas
+		this.canvas.mousemove(function(e) {
+			signature.move(e, false, this);
+		});
 
 
-// Mouvement de la souris sur le canvas
-canvas.mousemove(function(e) {
-	// Si on est en train de dessiner (clic souris enfoncé)
-	if (painting) {
-		// On défini les coordonnées de la souris
-		cursorX = (e.pageX - this.offsetLeft);
-		cursorY = (e.pageY - this.offsetTop);
+		// ---- Gestion mouvements tactiles ----
 
-		// On dessine une ligne
-		drawLine();
+		// Doigt enfoncé sur le canvas, on dessine
+		this.canvas.bind('touchstart', function(e) {
+			signature.moveStart(e, true, this);
+		});
+
+		// Relachement du doigt sur tout le document, on arrête de dessiner
+		this.canvas.bind('touchend', function() {
+			signature.moveEnd();
+		});
+
+		// Mouvement du doigt sur le canvas
+		this.canvas.bind('touchmove', function(e) {
+			signature.move(e, true, this);
+		});
+
+
+		// ---- Evenements du canvas ----
+
+		// En cas d'abandon avant avoir remplis le canvas
+		$('.fa-times, .rafraichir, .annuler').click(function() {
+			$('.confirmer').attr('disabled','disabled')
+						   .attr('title','Signez dans le cadre pour pouvoir confirmer la réservation')
+						   .addClass('confirmerInactif')
+						   .removeClass('confirmerActif');
+		});
+
+		// Un clic sur le canvas permet à l'utilisateur de confirmer la réservation
+		this.canvas.on('click touchend', function() {
+			$('.confirmer').removeAttr('disabled')
+						   .removeAttr('title')
+						   .addClass('confirmerActif')
+						   .removeClass('confirmerInactif');
+		});
+	},
+
+	// Redimentionnement du canvas (responsive)
+	canvasResponsive : function() {
+		this.canvas.attr('width', this.canvas.width());
+		this.canvas.attr('height', this.canvas.height());
+
+			$('.confirmer').attr('disabled','disabled')
+					   .attr('title','Signez dans le cadre pour pouvoir confirmer la réservation')
+					   .addClass('confirmerInactif')
+					   .removeClass('confirmerActif');
+	},
+
+	// Méthode bouton Reset
+	rafraichirCanvas : function (bouton) {
+		$(bouton).click(function() {
+			signature.context.clearRect(0, 0, signature.canvas[0].width, signature.canvas[0].height);
+		});
+	},
+
+	// Méthode qui dessine une ligne
+	drawLine : function () {
+		// Si c'est le début, on initialise
+		if (!this.started) {
+			// On place le curseur pour la première fois
+			this.context.beginPath();
+			this.context.moveTo(this.cursorX, this.cursorY);
+			this.started = true;
+		} 
+		// Sinon on dessine
+		else {
+			this.context.lineTo(this.cursorX, this.cursorY);
+			this.context.strokeStyle =  '#000';
+			this.context.lineWidth 	 = 1;
+			this.context.stroke();
+		}
+	},
+
+	// Méthode de detection des mouvement (souris ou tactile)
+	move : function(e, mobile, obj) {
+		// Si on dessine (clic souris enfoncé)
+		if (this.painting) {
+			if (mobile) {
+				// Event mobile
+				var ev = e.originalEvent;
+				e.preventDefault();
+				
+				// On défini les coordonées du doigt
+				this.cursorX = (ev.targetTouches[0].pageX - obj.offsetLeft);
+				this.cursorY = (ev.targetTouches[0].pageY - obj.offsetTop);
+			}
+			else {
+				// On défini les coordonées de la souris
+				this.cursorX = (e.pageX - obj.offsetLeft);
+				this.cursorY = (e.pageY - obj.offsetTop);
+			}
+			
+			// On dessine une ligne
+			this.drawLine();
+		}
+	},
+
+	//  Méthode début de mouvement
+	moveStart : function(e, mobile, obj) {
+		this.painting = true;
+
+		if (mobile) {
+			// Event mobile
+			var ev = e.originalEvent;
+			e.preventDefault();
+			
+			// On défini les coordonées du doigt
+			this.cursorX = (ev.pageX - obj.offsetLeft);
+			this.cursorY = (ev.pageY - obj.offsetTop);
+		}
+		else {
+			// On défini les coordonées de la souris
+			this.cursorX = (e.pageX - this.offsetLeft);
+			this.cursorY = (e.pageY - this.offsetTop);
+		}
+	},
+
+	// Méthode fin de mouvement
+	moveEnd : function() {
+		this.painting = false;
+		this.started  = false;
 	}
-});
+};
 
-
-// Fonction qui dessine une ligne
-function drawLine() {
-	// Si c'est le début, on initialise
-	if (!started) {
-		// On place le curseur pour la première fois
-		context.beginPath();
-		context.moveTo(cursorX, cursorY);
-		started = true;
-	} 
-	// Sinon on dessine
-	else {
-		context.lineTo(cursorX, cursorY);
-		context.strokeStyle = color;
-		context.lineWidth = width_brush;
-		context.stroke();
-	}
-}
-
-
-// Fonction bouton Reset
-function rafraichirCanvas (bouton) {
-	$(bouton).click(function() {
-		context.clearRect(0, 0, canvas[0].width, canvas[0].height);
-	});
-}
-rafraichirCanvas('.rafraichir');
-
-
-// En cas d'abandon avant avoir remplis le canvas
-$('.fa-times, .rafraichir, .annuler').click(function() {
-	$('.confirmer').attr('disabled','disabled')
-		.attr('title','Signez dans le cadre pour pouvoir confirmer la réservation')
-		.addClass('confirmerInactif')
-		.removeClass('confirmerActif');
-})
-
-// Un clic sur le canvas permet à l'utilisateur de confirmer la réservation
-canvas.on('click touchend', function() {
-	$('.confirmer').removeAttr('disabled')
-	.removeAttr('title')
-	.addClass('confirmerActif')
-	.removeClass('confirmerInactif');
-})
+// Lancement de la méthode d'initialisation du canvas
+signature.init();
