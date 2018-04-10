@@ -83,10 +83,10 @@ var signature = {
 		this.canvas.attr('width', this.canvas.width());
 		this.canvas.attr('height', this.canvas.height());
 
-			$('.confirmer').attr('disabled','disabled')
-					   .attr('title','Signez dans le cadre pour pouvoir confirmer la réservation')
-					   .addClass('confirmerInactif')
-					   .removeClass('confirmerActif');
+		$('.confirmer').attr('disabled','disabled')
+				       .attr('title','Signez dans le cadre pour pouvoir confirmer la réservation')
+				   	   .addClass('confirmerInactif')
+				   	   .removeClass('confirmerActif');
 	},
 
 	// Méthode bouton Reset

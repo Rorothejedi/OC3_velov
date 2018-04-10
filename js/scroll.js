@@ -48,7 +48,14 @@ var navigation = {
             } else if ($(window).width() <= 528 && $(window).width() > 486) {
 
                 $parentInactive.css('margin-top', '0');
-            } 
+
+            } else if ($(window).width() <= 486 && $(window).width() > 320) {
+
+                $parentInactive.css('margin-top', '0');
+                $parentInactive.css('font-size', '0.65rem');
+                $parentInactive.children().children().css('padding-right', '10px');
+                $parentInactive.children().children().css('padding-left', '10px');
+            }
 
 
             var $parentActive = $('.navResaActive').parent();

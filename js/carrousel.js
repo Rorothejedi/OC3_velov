@@ -24,6 +24,7 @@ var carrousel = {
 		this.couleurPuces();
 		this.barreProgression($('.barreChargementCarrousel'));
 		this.textImage();
+		this.autoplay();
 
 		// ---- Evenements ----
 
@@ -199,7 +200,7 @@ var carrousel = {
 				this.arriereImage.css('display', 'none');
 				this.animEnCours = false;
 
-			} else if (this.width <= 768 && width > 414) {
+			} else if (this.width <= 768 && this.width > 414) {
 
 				this.compteurZindex++;
 				imageCourante.css('left', '-50%')
