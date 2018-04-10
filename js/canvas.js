@@ -15,6 +15,8 @@ var signature = {
 	// Méthode d'initialisation de l'objet signature
 	init 		: function () {
 
+		var that = this;
+
 		// Trait arrondi
 		this.context.lineJoin = 'round';
 		this.context.lineCap  = 'round';
@@ -27,17 +29,17 @@ var signature = {
 
 		// Clic souris enfonce sur le canvas
 		this.canvas.mousedown(function(e) {
-			signature.moveStart(e, false);
+			that.moveStart(e, false);
 		});
 			
 		// Relachement du clic sur tout le document
 		this.canvas.mouseup(function() {
-			signature.moveEnd();
+			that.moveEnd();
 		});
 			
 		// Mouvement de la souris sur le canvas
 		this.canvas.mousemove(function(e) {
-			signature.move(e, false, this);
+			that.move(e, false, this);
 		});
 
 
@@ -45,17 +47,17 @@ var signature = {
 
 		// Doigt enfoncé sur le canvas, on dessine
 		this.canvas.bind('touchstart', function(e) {
-			signature.moveStart(e, true, this);
+			that.moveStart(e, true, this);
 		});
 
 		// Relachement du doigt sur tout le document, on arrête de dessiner
 		this.canvas.bind('touchend', function() {
-			signature.moveEnd();
+			that.moveEnd();
 		});
 
 		// Mouvement du doigt sur le canvas
 		this.canvas.bind('touchmove', function(e) {
-			signature.move(e, true, this);
+			that.move(e, true, this);
 		});
 
 
@@ -91,8 +93,11 @@ var signature = {
 
 	// Méthode bouton Reset
 	rafraichirCanvas : function (bouton) {
+
+		var that = this;
+
 		$(bouton).click(function() {
-			signature.context.clearRect(0, 0, signature.canvas[0].width, signature.canvas[0].height);
+			that.context.clearRect(0, 0, that.canvas[0].width, that.canvas[0].height);
 		});
 	},
 
@@ -165,5 +170,3 @@ var signature = {
 	}
 };
 
-// Lancement de la méthode d'initialisation du canvas
-signature.init();

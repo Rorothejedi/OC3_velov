@@ -82,8 +82,6 @@ var carte = {
           }
         ],{name: 'Emplacement des relais Vélo\'v'}),
 
-
-
     initMap : function() {
    
         // On définit les options de la Google Map
@@ -100,6 +98,7 @@ var carte = {
         // On instancie la Google Map
         var map = new google.maps.Map(document.getElementById('map'), mapOptions);
         var oms = new OverlappingMarkerSpiderfier(map);
+        var that = this;
 
         // On applique le nouveau style de la map
         map.mapTypes.set('styled_map', this.styledMapType);
@@ -109,17 +108,17 @@ var carte = {
         ajaxGet("https://api.jcdecaux.com/vls/v1/stations?contract=Lyon&apiKey=9590be8e47d7154bf9cc5784f23eb168c68e79ef", function (reponse) {
 
             // L'objet Station contient maintenant les données actualises de l'API JCDecaux
-            carte.stations = JSON.parse(reponse);
+            that.stations = JSON.parse(reponse);
 
             var markers = [];
 
-            for (var i = 0; i < carte.stations.length; i++) {
+            for (var i = 0; i < that.stations.length; i++) {
 
                 // On calcule le pourcentage de vélo disponible à chaque station et on modifie l'icône du marqueur en fonction
-                var operation = (carte.stations[i].available_bikes * 100) / carte.stations[i].bike_stands;
+                var operation = (that.stations[i].available_bikes * 100) / that.stations[i].bike_stands;
                 var icon;
 
-                if (carte.stations[i].status != 'OPEN') {
+                if (that.stations[i].status != 'OPEN') {
                     icon = 'img/poi-chantier.png';
                 } else if (operation === 100) {
                     icon = 'img/station-100.png';
@@ -137,16 +136,16 @@ var carte = {
                 var marker = new google.maps.Marker({
                     // parseFloat nous permet de transformer la latitude et la longitude en nombre décimal
                     position: {
-                        lat: parseFloat(carte.stations[i].position.lat), 
-                        lng: parseFloat(carte.stations[i].position.lng)
+                        lat: parseFloat(that.stations[i].position.lat), 
+                        lng: parseFloat(that.stations[i].position.lng)
                     },
-                    title:                  carte.stations[i].name,
-                    station:                carte.stations[i].name,
-                    address:                carte.stations[i].address,
-                    available_bikes:        carte.stations[i].available_bikes,
-                    available_bike_stands:  carte.stations[i].available_bike_stands,
-                    status:                 carte.stations[i].status,
-                    last_update:            carte.stations[i].last_update,
+                    title:                  that.stations[i].name,
+                    station:                that.stations[i].name,
+                    address:                that.stations[i].address,
+                    available_bikes:        that.stations[i].available_bikes,
+                    available_bike_stands:  that.stations[i].available_bike_stands,
+                    status:                 that.stations[i].status,
+                    last_update:            that.stations[i].last_update,
                     icon:                   icon,
                     map:                    map
                 });
@@ -307,15 +306,15 @@ var carte = {
                
                 // Fermeture du volet d'information au clic sur la croix
                 $('.fa-times').on('click', function() {
-                    carte.reservationInactif('.fa-times');
+                    that.reservationInactif('.fa-times');
                     $('#voletInfos').fadeOut('fast');
                     $('.fa-times').fadeOut('fast', function() {
                         $('#map').animate({width: '100%'}, 'slow');
                     });
                 });
 
-                carte.carteCanvas();
-                carte.carteReservation(marker);
+                that.carteCanvas();
+                that.carteReservation(marker);
             });
 
         });
@@ -338,8 +337,8 @@ var carte = {
         });
 
         // Fonction de modification du contenu du volet d'information (canvas vers bouton)
-      
-        carte.reservationInactif('.annuler');
+
+        this.reservationInactif('.annuler');
         signature.rafraichirCanvas('.annuler');
         signature.rafraichirCanvas('.fa-times');
         signature.rafraichirCanvas('.boutonReservationActif');
@@ -359,7 +358,7 @@ var carte = {
                 sessionStation = sessionStorage.getItem('station');
                 sessionHeure = sessionStorage.getItem('heure');
 
-                countdown.init();
+                countdownOrigin.init();
                 
                 if (typeof sessionStation != 'undefined') {
 
@@ -393,13 +392,6 @@ var carte = {
 };
 
 
-// Lancement de la fonction initMap au chargement de la page
-window.onload = function() {
-    carte.initMap();
-};
-
 // Récupération du contenu des variables de session
 sessionStation = sessionStorage.getItem('station');
 sessionHeure = sessionStorage.getItem('heure');
-
-countdown.init();

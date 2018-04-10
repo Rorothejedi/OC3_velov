@@ -101,11 +101,8 @@ var navigation = {
         }
 };
 
-navigation.init();
 
-
-
-// Initialisation de l'objet defilementFluide pour la fonction smoothscroll
+// Création de l'objet defilementFluide pour la fonction smoothscroll
 var defilementFluide = {
 
     // Méthode pour initialiser le défilement fluide via les ancres
@@ -120,5 +117,3 @@ var defilementFluide = {
         });
     }
 };
-
-defilementFluide.init();

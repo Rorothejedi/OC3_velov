@@ -28,14 +28,17 @@ var carrousel = {
 
 		// ---- Evenements ----
 
+		var that = this;
+		// Utiliser ça à la place de l'appelle de l'objet
+
 		// image suivante au clic
 		$('.next').on('click', function() { 
-			carrousel.suivant();
+			that.suivant();
 		});
 
 		// image précédente au clic
 		$('.prev').on('click', function() { 
-		 	carrousel.precedent();
+		 	that.precedent();
 		});
 
 		// Possibilité d'action avec les touches du clavier (suivant ou précédent)
@@ -46,13 +49,13 @@ var carrousel = {
 				case 37	: // fleche gauche
 				case 100: // pavé num 4
 				case 81	: // touche q
-					carrousel.precedent();
+					that.precedent();
 					break;
 
 				case 39	: // fleche droite
 				case 102: // pavé num 6
 				case 68 : // touche d
-					carrousel.suivant();
+					that.suivant();
 					break;
 			}
 		});
@@ -62,15 +65,15 @@ var carrousel = {
 
 			var indexLi = $("#pucesCarrousel li" ).index(this);
 
-			if (carrousel.numeroImage > indexLi) {
+			if (that.numeroImage > indexLi) {
 
-				carrousel.numeroImage = indexLi + 1;
-				carrousel.precedent();
+				that.numeroImage = indexLi + 1;
+				that.precedent();
 
-			} else if (carrousel.numeroImage < indexLi) {
+			} else if (that.numeroImage < indexLi) {
 
-				carrousel.numeroImage = indexLi - 1;
-				carrousel.suivant();
+				that.numeroImage = indexLi - 1;
+				that.suivant();
 			}
 		});
 	},
@@ -78,8 +81,10 @@ var carrousel = {
 	// Méthode d'autoplay (défilement automatique des images)
 	autoplay 		: function() {
 
+		var that = this;
+
 		this.play = setInterval(function() { 
-			carrousel.suivant(); 
+			that.suivant(); 
 		}, 10000);
 	},
 
@@ -146,9 +151,11 @@ var carrousel = {
 	// Méthode pour passer à l'image suivante 
 	imageSuiv : function(imageCourante) {
 
+		var that = this;
+
 		if(this.animEnCours === false){
 
-    		this.animEnCours = true; 
+    		this.animEnCours = true;
 
 			if(this.numeroImage < this.indexImg){
 
@@ -173,21 +180,21 @@ var carrousel = {
 			if (this.width > 1024) {
 
 				// On lance l'animation de l'image
-				carrousel.arriereImage.animate({left: '100%'}, 800, function() {
+				that.arriereImage.animate({left: '100%'}, 800, function() {
 
 					// Après l'animation, on incrémente le z-index pour que l'image en cours toujours soit devant
-					carrousel.compteurZindex++;
+					that.compteurZindex++;
 
 					imageCourante.css('left', '0%')
-								.css('z-index', carrousel.compteurZindex);
+								.css('z-index', that.compteurZindex);
 
 					if (backImg) { 
 						backImg.css('display', 'none');
 					}
 
-					carrousel.arriereImage.css('display', 'none');
+					that.arriereImage.css('display', 'none');
 					// On indique dans la variable que l'animation est terminée
-					carrousel.animEnCours = false;
+					that.animEnCours = false;
 					
 				});
 
@@ -230,6 +237,8 @@ var carrousel = {
 	// Méthode pour passer à l'image précédente (fonctionnement similaire à la méthode 'imageSuiv')
 	imagePrec : function(imageCourante) {
 
+		var that = this;
+
 		if(this.animEnCours === false) {
 
     		this.animEnCours = true; 
@@ -243,7 +252,7 @@ var carrousel = {
 
 			} else {
 				this.numeroImage--;
-			    this.arriereImage = carrousel.$img.eq(this.numeroImage + 1);
+			    this.arriereImage = that.$img.eq(this.numeroImage + 1);
 			    var backImg 	  = this.$img.eq(this.numeroImage + 2);
 			    var backImgB 	  = this.$img.eq(this.numeroImage + 3);
 			    imageCourante 	  = this.$img.eq(this.numeroImage);
@@ -257,11 +266,11 @@ var carrousel = {
 			// Supression de l'animation pour les tablettes et mobiles
 			if (this.width > 1024) {
 
-				carrousel.arriereImage.animate({left: '-100%'}, 800, function() {
+				that.arriereImage.animate({left: '-100%'}, 800, function() {
 
-					carrousel.compteurZindex++;
+					that.compteurZindex++;
 					imageCourante.css('left', '0%')
-							  	 .css('z-index', carrousel.compteurZindex);
+							  	 .css('z-index', that.compteurZindex);
 
 					if (backImg) {
 						backImg.css('display', 'none');
@@ -270,47 +279,43 @@ var carrousel = {
 						backImgC.css('display', 'none');
 					}
 
-					carrousel.arriereImage.css('display', 'none');
-					carrousel.animEnCours = false;
+					that.arriereImage.css('display', 'none');
+					that.animEnCours = false;
 				});
 
 			// Mode paysage mobile
 			} else if (this.width <= 740 && this.height < this.width) {
 
-				carrousel.compteurZindex++;
+				that.compteurZindex++;
 				imageCourante.css('left', '0%')
-							 .css('z-index', carrousel.compteurZindex);
-				carrousel.arriereImage.css('display', 'none');
-				carrousel.animEnCours = false;
+							 .css('z-index', that.compteurZindex);
+				that.arriereImage.css('display', 'none');
+				that.animEnCours = false;
 
 			} else if (this.width <= 768 && this.width > 414) {
 
-				carrousel.compteurZindex++;
+				that.compteurZindex++;
 				imageCourante.css('left', '-50%')
-							 .css('z-index', carrousel.compteurZindex);
-				carrousel.arriereImage.css('display', 'none');
-				carrousel.animEnCours = false;
+							 .css('z-index', that.compteurZindex);
+				that.arriereImage.css('display', 'none');
+				that.animEnCours = false;
 
 			} else if (this.width <= 414) {
 
-				carrousel.compteurZindex++;
+				that.compteurZindex++;
 				imageCourante.css('left', '-85%')
-							 .css('z-index', carrousel.compteurZindex);
-				carrousel.arriereImage.css('display', 'none');
-				carrousel.animEnCours = false;
+							 .css('z-index', that.compteurZindex);
+				that.arriereImage.css('display', 'none');
+				that.animEnCours = false;
 
 			} else {
 
-				carrousel.compteurZindex++;
+				that.compteurZindex++;
 				imageCourante.css('left', '-8%')
-							 .css('z-index', carrousel.compteurZindex);
-				carrousel.arriereImage.css('display', 'none');
-				carrousel.animEnCours = false;
+							 .css('z-index', that.compteurZindex);
+				that.arriereImage.css('display', 'none');
+				that.animEnCours = false;
 			}
 		}
 	}
 };
-
-
-// Lancement de la méthode d'initialisation du carrousel
-carrousel.init();
